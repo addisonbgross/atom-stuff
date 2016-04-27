@@ -1,0 +1,35 @@
+{
+  "name": "language-x86-64-assembly",
+  "version": "2.1.10",
+  "description": "Bleeding edge x86 and x86_64 assembly syntax",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/13xforever/language-x86_64-assembly.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {},
+  "readme": "About\n=====\nThis is a TextMate/Sublime/VS Code/Atom bundle providing language support for x86_64 assembly language in a variety of dialects (nasm/yasm/tasm/gas).\n\nFeatures\n========\n* Basic support for NASM/YASM/TASM/GAS syntaxes\n* Most up-to-date instruction sets:\n  * Legacy/undocumented registers and instructions\n  * FPU/MMX/3DNow!\n  * SSE/SSE2/(S)SSE3/SSE4/SSE4.1/SSE4.2/SSE4.a\n  * AVX/AVX2/AVX512, including pseudo-ops\n  * AES-NI/SHA\n  * VMX/SMX/NPX/SGX\n  * other AMD/Cyrix/VIA and planned future Intel extensions\n\nSource code\n===========\nThe latest version of this package should be available on [GitHub](https://github.com/13xforever/x86-assembly-textmate-bundle).\n\nTo compile the yaml sources to tmLanguage, you'll need [AAAPackageDev](https://packagecontrol.io/packages/AAAPackageDev). \nMore information and a user guide is available on the [project page](https://github.com/SublimeText/AAAPackageDev).\n\nAtom [import guide](https://atom.io/docs/latest/hacking-atom-converting-from-textmate).\n\nVS Code [import guide](https://code.visualstudio.com/updates/#_customization-adding-language-colorization-bracket-matching) (no IntelliSense support though)!\n\nContributors\n============\n[YASM tests](Tests/yasm-regression) are provided by [yasm-regression](https://github.com/yasm/yasm-regression) project.\n\nExamples\n========\n* Sublime Text with Monokai Extended Bright color scheme\n  ![Sublime Text with Monokai Extended Bright color scheme](https://github.com/13xforever/x86-assembly-textmate-bundle/blob/master/Screenshots/Sublime%20Text%203%20-%20Monokai%20Extended%20Bright.png?raw=true)\n* Atom with One Dark syntax theme\n  ![Atom with One Dark syntax theme](https://github.com/13xforever/x86-assembly-textmate-bundle/blob/master/Screenshots/Atom%20-%20One%20Dark.png?raw=true)\n* Visual Studio Code with default Dark color theme\n  ![Visual Studio Code with default Dark color theme](https://github.com/13xforever/x86-assembly-textmate-bundle/blob/master/Screenshots/Visual%20Studio%20Code%20-%20Dark.png?raw=true)\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/13xforever/language-x86_64-assembly/issues"
+  },
+  "homepage": "https://github.com/13xforever/language-x86_64-assembly#readme",
+  "_id": "language-x86-64-assembly@2.1.10",
+  "_shasum": "941f8b4dadee1b3c30f00d80b4dd04700d9240fa",
+  "_resolved": "file:../d-116222-24541-1uqzo1k/package.tgz",
+  "_from": "../d-116222-24541-1uqzo1k/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

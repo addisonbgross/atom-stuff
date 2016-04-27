@@ -1,0 +1,38 @@
+'.platform-win32, .platform-linux':
+    'ctrl-alt-r' : 'unset!'
+
+'atom-workspace atom-text-editor:not([mini])':
+    # HIDDEN
+    'ctrl-1' : 'unset!'
+    'ctrl-2' : 'unset!'
+    'ctrl-0' : 'unset!'
+    'ctrl-alt-g' : 'unset!'
+    'ctrl-alt-p' : 'unset!'
+    'ctrl-alt-n' : 'find-and-replace:toggle-selection-option'
+    'ctrl-alt-m' : 'pane:reopen-closed-item'
+    'ctrl-alt-v' : 'tree-view:recursive-expand-directory'
+    'ctrl-alt-:' : 'symbols-view:toggle-file-symbols'
+    'ctrl-up' : 'unset!'
+    'ctrl-down' : 'unset!'
+    'alt-up' : 'unset!'
+    'alt-down' : 'unset!'
+
+    # hotline
+    'ctrl-1' : 'atom-cscope:toggle'
+    'ctrl-2' : 'php-debug:toggleDebugging'
+    'ctrl-9' : 'todo-show:find-in-project'
+    'ctrl-0' : 'build-tools:first-command'
+
+    # ui
+    'ctrl-alt-p' : 'activate-power-mode:toggle'
+
+    # navigation
+    'alt-right' : 'window:focus-next-pane'
+    'alt-left' : 'window:focus-previous-pane'
+    'ctrl-alt-g' : 'git-diff:toggle-diff-list'
+    'ctrl-up' : 'core:page-up'
+    'ctrl-down' : 'core:page-down'
+    'ctrl-shift-up' : 'editor:move-line-up'
+    'ctrl-shift-down' : 'editor:move-line-down'
+    'alt-up' : 'multi-cursor:expandUp'
+    'alt-down' : 'multi-cursor:expandDown'

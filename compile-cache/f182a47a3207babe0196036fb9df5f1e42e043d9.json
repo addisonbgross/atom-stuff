@@ -1,0 +1,1 @@
+{"context-menu":{"atom-text-editor":[{"label":"Toggle pacmanfy","command":"pacmanfy:toggle"}]},"menu":[{"label":"Packages","submenu":[{"label":"pacmanfy","submenu":[{"label":"Toggle","command":"pacmanfy:toggle"}]}]}]}

@@ -1,0 +1,1 @@
+{"providers":[{"key":"bt","config":{"commands":[{"project":"/home/champ/Git/cpen331/os161","source":"/home/champ/Git/cpen331/os161/.build-tools.cson","name":"build","command":"./build","wd":"~/","env":{},"modifier":{},"stdout":{"pty":false,"highlighting":"nh","ansi_option":"ignore"},"stderr":{"highlighting":"nh","ansi_option":"ignore"},"output":{},"version":1}]}}]}

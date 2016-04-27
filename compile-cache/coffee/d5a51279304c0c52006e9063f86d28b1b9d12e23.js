@@ -1,0 +1,213 @@
+(function() {
+  var Modifiers, Pipeline, path;
+
+  Pipeline = require('../lib/pipeline/output-pipeline');
+
+  Modifiers = require('../lib/stream-modifiers/modifiers');
+
+  path = require('path');
+
+  describe('Output Pipeline', function() {
+    var callbacks, command, dest, disp, inst, mod, pipe;
+    pipe = null;
+    mod = null;
+    disp = null;
+    dest = null;
+    command = null;
+    inst = null;
+    callbacks = null;
+    beforeEach(function() {
+      var TestModifier, k, _i, _len, _ref;
+      dest = jasmine.createSpy('destroy');
+      command = {
+        project: atom.project.getPaths()[0],
+        wd: '.',
+        stdout: {
+          pipeline: [
+            {
+              name: 'test',
+              config: {
+                a: 1
+              }
+            }
+          ]
+        }
+      };
+      mod = {
+        modifier: TestModifier = (function() {
+          function TestModifier(config, settings, pipe) {
+            this.config = config;
+            this.settings = settings;
+            this.pipe = pipe;
+            this.modify = jasmine.createSpy('modify').andCallFake(function(_arg) {
+              var perm, temp;
+              temp = _arg.temp, perm = _arg.perm;
+              temp.foo = 123;
+              perm.bar = 231;
+              temp.type = 'error';
+              this.pipe.setType(temp);
+              return 1;
+            });
+            this.destroy = dest;
+            this.getFiles = jasmine.createSpy('getFiles').andCallFake(function(_arg) {
+              var perm, temp;
+              temp = _arg.temp, perm = _arg.perm;
+              if (temp.input === 'hello') {
+                return [];
+              }
+              return [
+                {
+                  start: 0,
+                  end: 10,
+                  file: 'test.vhd'
+                }
+              ];
+            });
+          }
+
+          TestModifier.prototype.modify = function() {};
+
+          return TestModifier;
+
+        })()
+      };
+      callbacks = {
+        setType: jasmine.createSpy('setType'),
+        replacePrevious: jasmine.createSpy('replacePrevious'),
+        print: jasmine.createSpy('print'),
+        linter: jasmine.createSpy('linter')
+      };
+      disp = Modifiers.addModule('test', mod);
+      pipe = new Pipeline(command, command.stdout);
+      _ref = Object.keys(callbacks);
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        k = _ref[_i];
+        pipe.subscribeToCommands(callbacks, k, k);
+      }
+      inst = pipe.pipeline[0];
+      spyOn(pipe, 'absolutePath').andCallThrough();
+      return spyOn(pipe, 'finishLine').andCallThrough();
+    });
+    afterEach(function() {
+      pipe.destroy();
+      expect(dest).toHaveBeenCalled();
+      return disp.dispose();
+    });
+    it('initializes the modifier', function() {
+      expect(inst.config).toBe(command.stdout.pipeline[0].config);
+      expect(inst.settings).toBe(command);
+      return expect(inst.pipe).toBe(pipe);
+    });
+    describe('on ::getFiles', function() {
+      var ret;
+      ret = null;
+      beforeEach(function() {
+        return ret = pipe.getFiles({
+          input: 'foo'
+        });
+      });
+      it('calls ::getFiles of all pipeline objects', function() {
+        expect(inst.getFiles).toHaveBeenCalled();
+        return expect(inst.getFiles.mostRecentCall.args).toEqual([
+          {
+            temp: {
+              input: 'foo'
+            },
+            perm: {
+              cwd: '.'
+            }
+          }
+        ]);
+      });
+      return it('returns the correct array', function() {
+        return expect(ret).toEqual([
+          {
+            start: 0,
+            end: 10,
+            file: path.join(atom.project.getPaths()[0], 'test.vhd')
+          }
+        ]);
+      });
+    });
+    describe('on ::finishLine', function() {
+      describe('without highlighting', function() {
+        beforeEach(function() {
+          return pipe.finishLine({
+            input: 'hello'
+          }, 'hello');
+        });
+        return it('does not update anything', function() {
+          expect(callbacks.print).not.toHaveBeenCalled();
+          expect(callbacks.linter).not.toHaveBeenCalled();
+          return expect(callbacks.setType).not.toHaveBeenCalled();
+        });
+      });
+      describe('with highlighting', function() {
+        beforeEach(function() {
+          return pipe.finishLine({
+            input: 'hello',
+            type: 'warning'
+          }, 'hello');
+        });
+        return it('calls only setType', function() {
+          expect(callbacks.print).not.toHaveBeenCalled();
+          expect(callbacks.linter).not.toHaveBeenCalled();
+          return expect(callbacks.setType).toHaveBeenCalledWith('warning');
+        });
+      });
+      return describe('with highlighting and file matches', function() {
+        var td;
+        td = null;
+        beforeEach(function() {
+          td = {
+            input: 'foo',
+            file: 'test.vhd',
+            row: 10,
+            type: 'warning',
+            message: 'hello'
+          };
+          return pipe.finishLine(td, 'foo');
+        });
+        return it('calls print and linter', function() {
+          expect(callbacks.print).toHaveBeenCalledWith({
+            input: td,
+            files: [
+              {
+                start: 0,
+                end: 10,
+                file: path.join(atom.project.getPaths()[0], 'test.vhd')
+              }
+            ]
+          });
+          expect(callbacks.linter.mostRecentCall.args[0]).toEqual({
+            type: 'warning',
+            text: 'hello',
+            filePath: path.join(atom.project.getPaths()[0], 'test.vhd'),
+            range: [[9, 0], [9, 9999]],
+            trace: void 0
+          });
+          return expect(callbacks.setType).not.toHaveBeenCalled();
+        });
+      });
+    });
+    return describe('on ::in', function() {
+      beforeEach(function() {
+        return pipe["in"]('hello');
+      });
+      it('calls modify', function() {
+        return expect(inst.modify).toHaveBeenCalled();
+      });
+      it('did not call finishLine', function() {
+        return expect(pipe.finishLine).not.toHaveBeenCalled();
+      });
+      return it('calls setType', function() {
+        return expect(callbacks.setType).toHaveBeenCalledWith('error');
+      });
+    });
+  });
+
+}).call(this);
+
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAiZmlsZSI6ICIiLAogICJzb3VyY2VSb290IjogIiIsCiAgInNvdXJjZXMiOiBbCiAgICAiL2hvbWUvY2hhbXAvLmF0b20vcGFja2FnZXMvYnVpbGQtdG9vbHMvc3BlYy9vdXRwdXQtcGlwZWxpbmUtc3BlYy5jb2ZmZWUiCiAgXSwKICAibmFtZXMiOiBbXSwKICAibWFwcGluZ3MiOiAiQUFBQTtBQUFBLE1BQUEseUJBQUE7O0FBQUEsRUFBQSxRQUFBLEdBQVcsT0FBQSxDQUFRLGlDQUFSLENBQVgsQ0FBQTs7QUFBQSxFQUNBLFNBQUEsR0FBWSxPQUFBLENBQVEsbUNBQVIsQ0FEWixDQUFBOztBQUFBLEVBR0EsSUFBQSxHQUFPLE9BQUEsQ0FBUSxNQUFSLENBSFAsQ0FBQTs7QUFBQSxFQUtBLFFBQUEsQ0FBUyxpQkFBVCxFQUE0QixTQUFBLEdBQUE7QUFDMUIsUUFBQSwrQ0FBQTtBQUFBLElBQUEsSUFBQSxHQUFPLElBQVAsQ0FBQTtBQUFBLElBQ0EsR0FBQSxHQUFNLElBRE4sQ0FBQTtBQUFBLElBRUEsSUFBQSxHQUFPLElBRlAsQ0FBQTtBQUFBLElBR0EsSUFBQSxHQUFPLElBSFAsQ0FBQTtBQUFBLElBSUEsT0FBQSxHQUFVLElBSlYsQ0FBQTtBQUFBLElBS0EsSUFBQSxHQUFPLElBTFAsQ0FBQTtBQUFBLElBTUEsU0FBQSxHQUFZLElBTlosQ0FBQTtBQUFBLElBUUEsVUFBQSxDQUFXLFNBQUEsR0FBQTtBQUNULFVBQUEsK0JBQUE7QUFBQSxNQUFBLElBQUEsR0FBTyxPQUFPLENBQUMsU0FBUixDQUFrQixTQUFsQixDQUFQLENBQUE7QUFBQSxNQUNBLE9BQUEsR0FDRTtBQUFBLFFBQUEsT0FBQSxFQUFTLElBQUksQ0FBQyxPQUFPLENBQUMsUUFBYixDQUFBLENBQXdCLENBQUEsQ0FBQSxDQUFqQztBQUFBLFFBQ0EsRUFBQSxFQUFJLEdBREo7QUFBQSxRQUVBLE1BQUEsRUFDRTtBQUFBLFVBQUEsUUFBQSxFQUFVO1lBQ1I7QUFBQSxjQUNFLElBQUEsRUFBTSxNQURS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
+
+//# sourceURL=/home/champ/.atom/packages/build-tools/spec/output-pipeline-spec.coffee

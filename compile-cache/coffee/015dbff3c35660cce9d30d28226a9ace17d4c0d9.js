@@ -1,0 +1,56 @@
+(function() {
+  var InputStream, OutputInterface, OutputManager, OutputStream, Outputs;
+
+  InputStream = require('./input-stream');
+
+  OutputStream = require('./output-stream');
+
+  OutputInterface = require('./output-interface');
+
+  Outputs = require('../output/output');
+
+  module.exports = OutputManager = (function() {
+    function OutputManager(command, outputs) {
+      this.command = command;
+      this.outputs = outputs;
+      this.stdin = new InputStream;
+      this.stdout = new OutputStream(this.command, this.command.stdout);
+      this.stderr = new OutputStream(this.command, this.command.stderr);
+      this.stdin.onWrite((function(_this) {
+        return function(text) {
+          if (!_this.stdin.isPTY()) {
+            return _this.stdout["in"](text);
+          }
+        };
+      })(this));
+      this["interface"] = new OutputInterface(this.outputs, this.stdin, this.stdout, this.stderr);
+      this["interface"].initialize(this.command);
+    }
+
+    OutputManager.prototype.setInput = function(input) {
+      return this.stdin.setInput(input);
+    };
+
+    OutputManager.prototype.destroy = function() {
+      this.stdin.destroy();
+      this.stdout.destroy();
+      return this.stderr.destroy();
+    };
+
+    OutputManager.prototype.finish = function(status) {
+      return this["interface"].finish(status);
+    };
+
+    OutputManager.prototype.error = function(error) {
+      return this["interface"].error(error);
+    };
+
+    return OutputManager;
+
+  })();
+
+}).call(this);
+
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAiZmlsZSI6ICIiLAogICJzb3VyY2VSb290IjogIiIsCiAgInNvdXJjZXMiOiBbCiAgICAiL2hvbWUvY2hhbXAvLmF0b20vcGFja2FnZXMvYnVpbGQtdG9vbHMvbGliL3BpcGVsaW5lL2lvLW1hbmFnZXIuY29mZmVlIgogIF0sCiAgIm5hbWVzIjogW10sCiAgIm1hcHBpbmdzIjogIkFBQUE7QUFBQSxNQUFBLGtFQUFBOztBQUFBLEVBQUEsV0FBQSxHQUFjLE9BQUEsQ0FBUSxnQkFBUixDQUFkLENBQUE7O0FBQUEsRUFDQSxZQUFBLEdBQWUsT0FBQSxDQUFRLGlCQUFSLENBRGYsQ0FBQTs7QUFBQSxFQUVBLGVBQUEsR0FBa0IsT0FBQSxDQUFRLG9CQUFSLENBRmxCLENBQUE7O0FBQUEsRUFHQSxPQUFBLEdBQVUsT0FBQSxDQUFRLGtCQUFSLENBSFYsQ0FBQTs7QUFBQSxFQUtBLE1BQU0sQ0FBQyxPQUFQLEdBQ1E7QUFFUyxJQUFBLHVCQUFFLE9BQUYsRUFBWSxPQUFaLEdBQUE7QUFDWCxNQURZLElBQUMsQ0FBQSxVQUFBLE9BQ2IsQ0FBQTtBQUFBLE1BRHNCLElBQUMsQ0FBQSxVQUFBLE9BQ3ZCLENBQUE7QUFBQSxNQUFBLElBQUMsQ0FBQSxLQUFELEdBQVMsR0FBQSxDQUFBLFdBQVQsQ0FBQTtBQUFBLE1BQ0EsSUFBQyxDQUFBLE1BQUQsR0FBYyxJQUFBLFlBQUEsQ0FBYSxJQUFDLENBQUEsT0FBZCxFQUF1QixJQUFDLENBQUEsT0FBTyxDQUFDLE1BQWhDLENBRGQsQ0FBQTtBQUFBLE1BRUEsSUFBQyxDQUFBLE1BQUQsR0FBYyxJQUFBLFlBQUEsQ0FBYSxJQUFDLENBQUEsT0FBZCxFQUF1QixJQUFDLENBQUEsT0FBTyxDQUFDLE1BQWhDLENBRmQsQ0FBQTtBQUFBLE1BSUEsSUFBQyxDQUFBLEtBQUssQ0FBQyxPQUFQLENBQWUsQ0FBQSxTQUFBLEtBQUEsR0FBQTtlQUFBLFNBQUMsSUFBRCxHQUFBO0FBQ2IsVUFBQSxJQUFBLENBQUEsS0FBd0IsQ0FBQSxLQUFLLENBQUMsS0FBUCxDQUFBLENBQXZCO21CQUFBLEtBQUMsQ0FBQSxNQUFNLENBQUMsSUFBRCxDQUFQLENBQVcsSUFBWCxFQUFBO1dBRGE7UUFBQSxFQUFBO01BQUEsQ0FBQSxDQUFBLENBQUEsSUFBQSxDQUFmLENBSkEsQ0FBQTtBQUFBLE1BT0EsSUFBQyxDQUFBLFdBQUEsQ0FBRCxHQUFpQixJQUFBLGVBQUEsQ0FBZ0IsSUFBQyxDQUFBLE9BQWpCLEVBQTBCLElBQUMsQ0FBQSxLQUEzQixFQUFrQyxJQUFDLENBQUEsTUFBbkMsRUFBMkMsSUFBQyxDQUFBLE1BQTVDLENBUGpCLENBQUE7QUFBQSxNQVFBLElBQUMsQ0FBQSxXQUFBLENBQVMsQ0FBQyxVQUFYLENBQXNCLElBQUMsQ0FBQSxPQUF2QixDQVJBLENBRFc7SUFBQSxDQUFiOztBQUFBLDRCQVdBLFFBQUEsR0FBVSxTQUFDLEtBQUQsR0FBQTthQUNSLElBQUMsQ0FBQSxLQUFLLENBQUMsUUFBUCxDQUFnQixLQUFoQixFQURRO0lBQUEsQ0FYVixDQUFBOztBQUFBLDRCQWNBLE9BQUEsR0FBUyxTQUFBLEdBQUE7QUFDUCxNQUFBLElBQUMsQ0FBQSxLQUFLLENBQUMsT0FBUCxDQUFBLENBQUEsQ0FBQTtBQUFBLE1BQ0EsSUFBQyxDQUFBLE1BQU0sQ0FBQyxPQUFSLENBQUEsQ0FEQSxDQUFBO2FBRUEsSUFBQyxDQUFBLE1BQU0sQ0FBQyxPQUFSLENBQUEsRUFITztJQUFBLENBZFQsQ0FBQTs7QUFBQSw0QkFtQkEsTUFBQSxHQUFRLFNBQUMsTUFBRCxHQUFBO2FBQ04sSUFBQyxDQUFBLFdBQUEsQ0FBUyxDQUFDLE1BQVgsQ0FBa0IsTUFBbEIsRUFETTtJQUFBLENBbkJSLENBQUE7O0FBQUEsNEJBc0JBLEtBQUEsR0FBTyxTQUFDLEtBQUQsR0FBQTthQUNMLElBQUMsQ0FBQSxXQUFBLENBQVMsQ0FBQyxLQUFYLENBQWlCLEtBQWpCLEVBREs7SUFBQSxDQXRCUCxDQUFBOzt5QkFBQTs7TUFSSixDQUFBO0FBQUEiCn0=
+
+//# sourceURL=/home/champ/.atom/packages/build-tools/lib/pipeline/io-manager.coffee

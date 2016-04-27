@@ -1,0 +1,51 @@
+"use babel";
+
+describe('Utility functions', function () {
+  var utility = require('../lib/utility.js');
+
+  beforeEach(function () {
+    waitsForPromise(function () {
+      atom.config.set('linter-gcc.execPath', '/usr/bin/g++');
+      atom.config.set('linter-gcc.gccDefaultCFlags', '-Wall');
+      atom.config.set('linter-gcc.gccDefaultCppFlags', '-Wall -std=c++11');
+      atom.config.set('linter-gcc.gccErrorLimit', 15);
+      atom.config.set('linter-gcc.gccIncludePaths', ' ');
+      atom.config.set('linter-gcc.gccSuppressWarnings', true);
+      atom.config.set('linter-gcc.gccLintOnTheFly', false);
+      atom.packages.activatePackage("language-c");
+      atom.packages.activatePackage("language-javascript");
+      return atom.packages.activatePackage('linter-gcc');
+    });
+  });
+
+  it('returns an editor for a C++ file', function () {
+    waitsForPromise(function () {
+      return atom.workspace.open(__dirname + '/files/missing_include.cpp').then(function (editor) {
+        expect(utility.getValidEditor(editor)).toBeDefined();
+      });
+    });
+  });
+
+  it('returns an editor for a C file', function () {
+    waitsForPromise(function () {
+      return atom.workspace.open(__dirname + '/files/missing_include.c').then(function (editor) {
+        expect(utility.getValidEditor(editor)).toBeDefined();
+      });
+    });
+  });
+
+  it('returns undefined for a javascript file', function () {
+    waitsForPromise(function () {
+      return atom.workspace.open(__dirname + '/../lib/utility.js').then(function (editor) {
+        expect(utility.getValidEditor(editor)).not.toBeDefined();
+      });
+    });
+  });
+
+  // it('Flattens an empty hash correctly', () => {
+  //   hash = {};
+  //   expect()
+  // })
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2NoYW1wLy5hdG9tL3BhY2thZ2VzL2xpbnRlci1nY2Mvc3BlYy91dGlsaXR5LXNwZWMuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsV0FBVyxDQUFDOztBQUVaLFFBQVEsQ0FBQyxtQkFBbUIsRUFBRSxZQUFNO0FBQ2xDLE1BQU0sT0FBTyxHQUFHLE9BQU8sQ0FBQyxtQkFBbUIsQ0FBQyxDQUFBOztBQUU1QyxZQUFVLENBQUMsWUFBTTtBQUNmLG1CQUFlLENBQUMsWUFBTTtBQUNwQixVQUFJLENBQUMsTUFBTSxDQUFDLEdBQUcsQ0FBQyxxQkFBcUIsRUFBRSxjQUFjLENBQUMsQ0FBQTtBQUN0RCxVQUFJLENBQUMsTUFBTSxDQUFDLEdBQUcsQ0FBQyw2QkFBNkIsRUFBRSxPQUFPLENBQUMsQ0FBQTtBQUN2RCxVQUFJLENBQUMsTUFBTSxDQUFDLEdBQUcsQ0FBQywrQkFBK0IsRUFBRSxrQkFBa0IsQ0FBQyxDQUFBO0FBQ3BFLFVBQUksQ0FBQyxNQUFNLENBQUMsR0FBRyxDQUFDLDBCQUEwQixFQUFFLEVBQUUsQ0FBQyxDQUFBO0FBQy9DLFVBQUksQ0FBQyxNQUFNLENBQUMsR0FBRyxDQUFDLDRCQUE0QixFQUFFLEdBQUcsQ0FBQyxDQUFBO0FBQ2xELFVBQUksQ0FBQyxNQUFNLENBQUMsR0FBRyxDQUFDLGdDQUFnQyxFQUFFLElBQUksQ0FBQyxDQUFBO0FBQ3ZELFVBQUksQ0FBQyxNQUFNLENBQUMsR0FBRyxDQUFDLDRCQUE0QixFQUFFLEtBQUssQ0FBQyxDQUFBO0FBQ3BELFVBQUksQ0FBQyxRQUFRLENBQUMsZUFBZSxDQUFDLFlBQVksQ0FBQyxDQUFBO0FBQzNDLFVBQUksQ0FBQyxRQUFRLENBQUMsZUFBZSxDQUFDLHFCQUFxQixDQUFDLENBQUE7QUFDcEQsYUFBTyxJQUFJLENBQUMsUUFBUSxDQUFDLGVBQWUsQ0FBQyxZQUFZLENBQUMsQ0FBQTtLQUNuRCxDQUFDLENBQUE7R0FDSCxDQUFDLENBQUE7O0FBRUYsSUFBRSxDQUFDLGtDQUFrQyxFQUFFLFlBQU07QUFDM0MsbUJBQWUsQ0FBQyxZQUFNO0FBQ3BCLGFBQU8sSUFBSSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsU0FBUyxHQUFHLDRCQUE0QixDQUFDLENBQUMsSUFBSSxDQUFDLFVBQUEsTUFBTSxFQUFJO0FBQ2xGLGNBQU0sQ0FBQyxPQUFPLENBQUMsY0FBYyxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUMsV0FBVyxFQUFFLENBQUM7T0FDdEQsQ0FBQyxDQUFBO0tBQ0gsQ0FBQyxDQUFBO0dBQ0gsQ0FBQyxDQUFBOztBQUVGLElBQUUsQ0FBQyxnQ0FBZ0MsRUFBRSxZQUFNO0FBQ3pDLG1CQUFlLENBQUMsWUFBTTtBQUNwQixhQUFPLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLFNBQVMsR0FBRywwQkFBMEIsQ0FBQyxDQUFDLElBQUksQ0FBQyxVQUFBLE1BQU0sRUFBSTtBQUNoRixjQUFNLENBQUMsT0FBTyxDQUFDLGNBQWMsQ0FBQyxNQUFNLENBQUMsQ0FBQyxDQUFDLFdBQVcsRUFBRSxDQUFDO09BQ3RELENBQUMsQ0FBQTtLQUNILENBQUMsQ0FBQTtHQUNILENBQUMsQ0FBQTs7QUFFRixJQUFFLENBQUMseUNBQXlDLEVBQUUsWUFBTTtBQUNsRCxtQkFBZSxDQUFDLFlBQU07QUFDcEIsYUFBTyxJQUFJLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxTQUFTLEdBQUcsb0JBQW9CLENBQUMsQ0FBQyxJQUFJLENBQUMsVUFBQSxNQUFNLEVBQUk7QUFDMUUsY0FBTSxDQUFDLE9BQU8sQ0FBQyxjQUFjLENBQUMsTUFBTSxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUMsV0FBVyxFQUFFLENBQUM7T0FDMUQsQ0FBQyxDQUFBO0tBQ0gsQ0FBQyxDQUFBO0dBQ0gsQ0FBQyxDQUFBOzs7Ozs7Q0FNSCxDQUFDLENBQUEiLCJmaWxlIjoiL2hvbWUvY2hhbXAvLmF0b20vcGFja2FnZXMvbGludGVyLWdjYy9zcGVjL3V0aWxpdHktc3BlYy5qcyIsInNvdXJjZXNDb250ZW50IjpbIlwidXNlIGJhYmVsXCI7XG5cbmRlc2NyaWJlKCdVdGlsaXR5IGZ1bmN0aW9ucycsICgpID0+IHtcbiAgY29uc3QgdXRpbGl0eSA9IHJlcXVpcmUoJy4uL2xpYi91dGlsaXR5LmpzJylcblxuICBiZWZvcmVFYWNoKCgpID0+IHtcbiAgICB3YWl0c0ZvclByb21pc2UoKCkgPT4ge1xuICAgICAgYXRvbS5jb25maWcuc2V0KCdsaW50ZXItZ2NjLmV4ZWNQYXRoJywgJy91c3IvYmluL2crKycpXG4gICAgICBhdG9tLmNvbmZpZy5zZXQoJ2xpbnRlci1nY2MuZ2NjRGVmYXVsdENGbGFncycsICctV2FsbCcpXG4gICAgICBhdG9tLmNvbmZpZy5zZXQoJ2xpbnRlci1nY2MuZ2NjRGVmYXVsdENwcEZsYWdzJywgJy1XYWxsIC1zdGQ9YysrMTEnKVxuICAgICAgYXRvbS5jb25maWcuc2V0KCdsaW50ZXItZ2NjLmdjY0Vycm9yTGltaXQnLCAxNSlcbiAgICAgIGF0b20uY29uZmlnLnNldCgnbGludGVyLWdjYy5nY2NJbmNsdWRlUGF0aHMnLCAnICcpXG4gICAgICBhdG9tLmNvbmZpZy5zZXQoJ2xpbnRlci1nY2MuZ2NjU3VwcHJlc3NXYXJuaW5ncycsIHRydWUpXG4gICAgICBhdG9tLmNvbmZpZy5zZXQoJ2xpbnRlci1nY2MuZ2NjTGludE9uVGhlRmx5JywgZmFsc2UpXG4gICAgICBhdG9tLnBhY2thZ2VzLmFjdGl2YXRlUGFja2FnZShcImxhbmd1YWdlLWNcIilcbiAgICAgIGF0b20ucGFja2FnZXMuYWN0aXZhdGVQYWNrYWdlKFwibGFuZ3VhZ2UtamF2YXNjcmlwdFwiKVxuICAgICAgcmV0dXJuIGF0b20ucGFja2FnZXMuYWN0aXZhdGVQYWNrYWdlKCdsaW50ZXItZ2NjJylcbiAgICB9KVxuICB9KVxuXG4gIGl0KCdyZXR1cm5zIGFuIGVkaXRvciBmb3IgYSBDKysgZmlsZScsICgpID0+IHtcbiAgICB3YWl0c0ZvclByb21pc2UoKCkgPT4ge1xuICAgICAgcmV0dXJuIGF0b20ud29ya3NwYWNlLm9wZW4oX19kaXJuYW1lICsgJy9maWxlcy9taXNzaW5nX2luY2x1ZGUuY3BwJykudGhlbihlZGl0b3IgPT4ge1xuICAgICAgICBleHBlY3QodXRpbGl0eS5nZXRWYWxpZEVkaXRvcihlZGl0b3IpKS50b0JlRGVmaW5lZCgpO1xuICAgICAgfSlcbiAgICB9KVxuICB9KVxuXG4gIGl0KCdyZXR1cm5zIGFuIGVkaXRvciBmb3IgYSBDIGZpbGUnLCAoKSA9PiB7XG4gICAgd2FpdHNGb3JQcm9taXNlKCgpID0+IHtcbiAgICAgIHJldHVybiBhdG9tLndvcmtzcGFjZS5vcGVuKF9fZGlybmFtZSArICcvZmlsZXMvbWlzc2luZ19pbmNsdWRlLmMnKS50aGVuKGVkaXRvciA9PiB7XG4gICAgICAgIGV4cGVjdCh1dGlsaXR5LmdldFZhbGlkRWRpdG9yKGVkaXRvcikpLnRvQmVEZWZpbmVkKCk7XG4gICAgICB9KVxuICAgIH0pXG4gIH0pXG5cbiAgaXQoJ3JldHVybnMgdW5kZWZpbmVkIGZvciBhIGphdmFzY3JpcHQgZmlsZScsICgpID0+IHtcbiAgICB3YWl0c0ZvclByb21pc2UoKCkgPT4ge1xuICAgICAgcmV0dXJuIGF0b20ud29ya3NwYWNlLm9wZW4oX19kaXJuYW1lICsgJy8uLi9saWIvdXRpbGl0eS5qcycpLnRoZW4oZWRpdG9yID0+IHtcbiAgICAgICAgZXhwZWN0KHV0aWxpdHkuZ2V0VmFsaWRFZGl0b3IoZWRpdG9yKSkubm90LnRvQmVEZWZpbmVkKCk7XG4gICAgICB9KVxuICAgIH0pXG4gIH0pXG5cbiAgLy8gaXQoJ0ZsYXR0ZW5zIGFuIGVtcHR5IGhhc2ggY29ycmVjdGx5JywgKCkgPT4ge1xuICAvLyAgIGhhc2ggPSB7fTtcbiAgLy8gICBleHBlY3QoKVxuICAvLyB9KVxufSlcbiJdfQ==
+//# sourceURL=/home/champ/.atom/packages/linter-gcc/spec/utility-spec.js

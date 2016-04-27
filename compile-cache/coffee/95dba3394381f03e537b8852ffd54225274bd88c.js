@@ -1,0 +1,134 @@
+(function() {
+  var Project, path;
+
+  Project = require('../lib/provider/project');
+
+  path = require('path');
+
+  describe('Project Configuration', function() {
+    var file, folder, instance;
+    instance = null;
+    folder = null;
+    file = null;
+    beforeEach(function() {
+      folder = atom.project.getPaths()[0];
+      file = path.join(folder, '.build-tools.cson');
+      instance = new Project(folder, file);
+      return spyOn(instance, 'save');
+    });
+    afterEach(function() {
+      return instance.destroy();
+    });
+    describe('on ::getCommandByIndex with a valid id', function() {
+      var command;
+      command = null;
+      beforeEach(function() {
+        var p;
+        p = instance.getCommandByIndex(0);
+        p.then(function(c) {
+          return command = c;
+        });
+        return waitsForPromise(function() {
+          return p;
+        });
+      });
+      return it('returns the correct command', function() {
+        return expect(command.name).toBe('Test');
+      });
+    });
+    describe('on ::getCommandById on the second provider', function() {
+      var command;
+      command = null;
+      beforeEach(function() {
+        var p;
+        p = instance.getCommandById(1, 1);
+        p.then(function(c) {
+          return command = c;
+        });
+        return waitsForPromise(function() {
+          return p;
+        });
+      });
+      return it('returns the correct command', function() {
+        return expect(command.name).toBe('Bar 2');
+      });
+    });
+    describe('on ::getCommandNameObjects', function() {
+      var commands;
+      commands = null;
+      beforeEach(function() {
+        var p;
+        p = instance.getCommandNameObjects();
+        p.then(function(cs) {
+          return commands = cs;
+        });
+        return waitsForPromise(function() {
+          return p;
+        });
+      });
+      return it('returns the correct commands', function() {
+        var c;
+        return expect((function() {
+          var _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = commands.length; _i < _len; _i++) {
+            c = commands[_i];
+            _results.push(c.name);
+          }
+          return _results;
+        })()).toEqual(['Test', 'Bar', 'Bar 2', 'Bar', 'Bar 2']);
+      });
+    });
+    describe('on ::addProvider', function() {
+      beforeEach(function() {
+        return instance.addProvider('bt');
+      });
+      it('adds the provider', function() {
+        return expect(instance.providers[3].key).toBe('bt');
+      });
+      return it('calls save', function() {
+        return expect(instance.save).toHaveBeenCalled();
+      });
+    });
+    describe('on ::removeProvider', function() {
+      beforeEach(function() {
+        return instance.removeProvider(2);
+      });
+      it('adds the provider', function() {
+        return expect(instance.providers[2]).toBeUndefined();
+      });
+      return it('calls save', function() {
+        return expect(instance.save).toHaveBeenCalled();
+      });
+    });
+    describe('on ::moveProviderUp', function() {
+      beforeEach(function() {
+        return instance.moveProviderUp(1);
+      });
+      it('moves the provider', function() {
+        expect(instance.providers[0].key).toBe('bte');
+        return expect(instance.providers[1].key).toBe('bt');
+      });
+      return it('calls save', function() {
+        return expect(instance.save).toHaveBeenCalled();
+      });
+    });
+    return describe('on ::moveProviderDown', function() {
+      beforeEach(function() {
+        return instance.moveProviderDown(0);
+      });
+      it('moves the provider', function() {
+        expect(instance.providers[0].key).toBe('bte');
+        return expect(instance.providers[1].key).toBe('bt');
+      });
+      return it('calls save', function() {
+        return expect(instance.save).toHaveBeenCalled();
+      });
+    });
+  });
+
+}).call(this);
+
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAiZmlsZSI6ICIiLAogICJzb3VyY2VSb290IjogIiIsCiAgInNvdXJjZXMiOiBbCiAgICAiL2hvbWUvY2hhbXAvLmF0b20vcGFja2FnZXMvYnVpbGQtdG9vbHMvc3BlYy9wcm9qZWN0LXNwZWMuY29mZmVlIgogIF0sCiAgIm5hbWVzIjogW10sCiAgIm1hcHBpbmdzIjogIkFBQUE7QUFBQSxNQUFBLGFBQUE7O0FBQUEsRUFBQSxPQUFBLEdBQVUsT0FBQSxDQUFRLHlCQUFSLENBQVYsQ0FBQTs7QUFBQSxFQUNBLElBQUEsR0FBTyxPQUFBLENBQVEsTUFBUixDQURQLENBQUE7O0FBQUEsRUFHQSxRQUFBLENBQVMsdUJBQVQsRUFBa0MsU0FBQSxHQUFBO0FBQ2hDLFFBQUEsc0JBQUE7QUFBQSxJQUFBLFFBQUEsR0FBVyxJQUFYLENBQUE7QUFBQSxJQUNBLE1BQUEsR0FBUyxJQURULENBQUE7QUFBQSxJQUVBLElBQUEsR0FBTyxJQUZQLENBQUE7QUFBQSxJQUlBLFVBQUEsQ0FBVyxTQUFBLEdBQUE7QUFDVCxNQUFBLE1BQUEsR0FBUyxJQUFJLENBQUMsT0FBTyxDQUFDLFFBQWIsQ0FBQSxDQUF3QixDQUFBLENBQUEsQ0FBakMsQ0FBQTtBQUFBLE1BQ0EsSUFBQSxHQUFPLElBQUksQ0FBQyxJQUFMLENBQVUsTUFBVixFQUFrQixtQkFBbEIsQ0FEUCxDQUFBO0FBQUEsTUFFQSxRQUFBLEdBQWUsSUFBQSxPQUFBLENBQVEsTUFBUixFQUFnQixJQUFoQixDQUZmLENBQUE7YUFHQSxLQUFBLENBQU0sUUFBTixFQUFnQixNQUFoQixFQUpTO0lBQUEsQ0FBWCxDQUpBLENBQUE7QUFBQSxJQVVBLFNBQUEsQ0FBVSxTQUFBLEdBQUE7YUFDUixRQUFRLENBQUMsT0FBVCxDQUFBLEVBRFE7SUFBQSxDQUFWLENBVkEsQ0FBQTtBQUFBLElBYUEsUUFBQSxDQUFTLHdDQUFULEVBQW1ELFNBQUEsR0FBQTtBQUNqRCxVQUFBLE9BQUE7QUFBQSxNQUFBLE9BQUEsR0FBVSxJQUFWLENBQUE7QUFB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
+
+//# sourceURL=/home/champ/.atom/packages/build-tools/spec/project-spec.coffee

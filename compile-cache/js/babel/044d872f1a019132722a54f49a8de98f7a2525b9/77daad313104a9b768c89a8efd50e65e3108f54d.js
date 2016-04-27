@@ -1,0 +1,23 @@
+'use babel';
+'use strict';
+
+/* jshint newcap:false */
+var __hasProp = ({}).hasOwnProperty;
+
+module.exports['extends'] = function (child, parent) {
+  for (var key in parent) {
+    if (__hasProp.call(parent, key)) {
+      child[key] = parent[key];
+    }
+  }
+  function ctor() {
+    /* jshint validthis:true */
+    this.constructor = child;
+  }
+  ctor.prototype = parent.prototype;
+  child.prototype = new ctor();
+  child.__super__ = parent.prototype;
+  return child;
+};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2NoYW1wLy5hdG9tL3BhY2thZ2VzL2J1aWxkL2xpYi9jc2NvbXBhdGFiaWxpdHkuanMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsV0FBVyxDQUFDO0FBQ1osWUFBWSxDQUFDOzs7QUFHYixJQUFJLFNBQVMsR0FBRyxDQUFBLEdBQUUsQ0FBQyxjQUFjLENBQUM7O0FBRWxDLE1BQU0sQ0FBQyxPQUFPLFdBQVEsR0FBRyxVQUFTLEtBQUssRUFBRSxNQUFNLEVBQUU7QUFDL0MsT0FBSyxJQUFJLEdBQUcsSUFBSSxNQUFNLEVBQUU7QUFDdEIsUUFBSSxTQUFTLENBQUMsSUFBSSxDQUFDLE1BQU0sRUFBRSxHQUFHLENBQUMsRUFBRTtBQUMvQixXQUFLLENBQUMsR0FBRyxDQUFDLEdBQUcsTUFBTSxDQUFDLEdBQUcsQ0FBQyxDQUFDO0tBQzFCO0dBQ0Y7QUFDRCxXQUFTLElBQUksR0FBRzs7QUFFZCxRQUFJLENBQUMsV0FBVyxHQUFHLEtBQUssQ0FBQztHQUMxQjtBQUNELE1BQUksQ0FBQyxTQUFTLEdBQUcsTUFBTSxDQUFDLFNBQVMsQ0FBQztBQUNsQyxPQUFLLENBQUMsU0FBUyxHQUFHLElBQUksSUFBSSxFQUFFLENBQUM7QUFDN0IsT0FBSyxDQUFDLFNBQVMsR0FBRyxNQUFNLENBQUMsU0FBUyxDQUFDO0FBQ25DLFNBQU8sS0FBSyxDQUFDO0NBQ2QsQ0FBQyIsImZpbGUiOiIvaG9tZS9jaGFtcC8uYXRvbS9wYWNrYWdlcy9idWlsZC9saWIvY3Njb21wYXRhYmlsaXR5LmpzIiwic291cmNlc0NvbnRlbnQiOlsiJ3VzZSBiYWJlbCc7XG4ndXNlIHN0cmljdCc7XG5cbi8qIGpzaGludCBuZXdjYXA6ZmFsc2UgKi9cbnZhciBfX2hhc1Byb3AgPSB7fS5oYXNPd25Qcm9wZXJ0eTtcblxubW9kdWxlLmV4cG9ydHMuZXh0ZW5kcyA9IGZ1bmN0aW9uKGNoaWxkLCBwYXJlbnQpIHtcbiAgZm9yICh2YXIga2V5IGluIHBhcmVudCkge1xuICAgIGlmIChfX2hhc1Byb3AuY2FsbChwYXJlbnQsIGtleSkpIHtcbiAgICAgIGNoaWxkW2tleV0gPSBwYXJlbnRba2V5XTtcbiAgICB9XG4gIH1cbiAgZnVuY3Rpb24gY3RvcigpIHtcbiAgICAvKiBqc2hpbnQgdmFsaWR0aGlzOnRydWUgKi9cbiAgICB0aGlzLmNvbnN0cnVjdG9yID0gY2hpbGQ7XG4gIH1cbiAgY3Rvci5wcm90b3R5cGUgPSBwYXJlbnQucHJvdG90eXBlO1xuICBjaGlsZC5wcm90b3R5cGUgPSBuZXcgY3RvcigpO1xuICBjaGlsZC5fX3N1cGVyX18gPSBwYXJlbnQucHJvdG90eXBlO1xuICByZXR1cm4gY2hpbGQ7XG59O1xuIl19
+//# sourceURL=/home/champ/.atom/packages/build/lib/cscompatability.js

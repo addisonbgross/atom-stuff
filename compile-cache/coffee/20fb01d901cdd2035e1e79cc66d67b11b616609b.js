@@ -1,0 +1,67 @@
+(function() {
+  var Disposable;
+
+  Disposable = require('atom').Disposable;
+
+  module.exports = {
+    profiles: {
+      gcc_clang: require('./gcc_clang'),
+      apm_test: require('./apm_test'),
+      java: require('./javac'),
+      python: require('./python'),
+      modelsim: require('./modelsim')
+    },
+    versions: {
+      gcc_clang: 1,
+      apm_test: 1,
+      java: 1,
+      python: 1,
+      modelsim: 1
+    },
+    addProfile: function(key, profile, version) {
+      if (version == null) {
+        version = 1;
+      }
+      if ((this.profiles[key] != null) && !this.isCoreName(key)) {
+        return;
+      }
+      this.profiles[key] = profile;
+      this.versions[key] = version;
+      return new Disposable((function(_this) {
+        return function() {
+          return _this.removeProfile(key);
+        };
+      })(this));
+    },
+    removeProfile: function(key) {
+      delete this.profiles[key];
+      return delete this.versions[key];
+    },
+    reset: function() {
+      var k, _i, _len, _ref;
+      _ref = Object.keys(this.profiles);
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        k = _ref[_i];
+        this.removeProfile(k);
+      }
+      this.profiles.gcc_clang = require('./gcc_clang');
+      this.profiles.apm_test = require('./apm_test');
+      this.profiles.java = require('./javac');
+      this.profiles.python = require('./python');
+      this.profiles.modelsim = require('./modelsim');
+      this.versions.gcc_clang = 1;
+      this.versions.apm_test = 1;
+      this.versions.java = 1;
+      this.versions.python = 1;
+      return this.versions.modelsim = 1;
+    },
+    isCoreName: function(key) {
+      return key === 'gcc_clang' || key === 'apm_test' || key === 'java' || key === 'python' || key === 'modelsim';
+    }
+  };
+
+}).call(this);
+
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAiZmlsZSI6ICIiLAogICJzb3VyY2VSb290IjogIiIsCiAgInNvdXJjZXMiOiBbCiAgICAiL2hvbWUvY2hhbXAvLmF0b20vcGFja2FnZXMvYnVpbGQtdG9vbHMvbGliL3Byb2ZpbGVzL3Byb2ZpbGVzLmNvZmZlZSIKICBdLAogICJuYW1lcyI6IFtdLAogICJtYXBwaW5ncyI6ICJBQUFBO0FBQUEsTUFBQSxVQUFBOztBQUFBLEVBQUMsYUFBYyxPQUFBLENBQVEsTUFBUixFQUFkLFVBQUQsQ0FBQTs7QUFBQSxFQUVBLE1BQU0sQ0FBQyxPQUFQLEdBQ0U7QUFBQSxJQUFBLFFBQUEsRUFDRTtBQUFBLE1BQUEsU0FBQSxFQUFXLE9BQUEsQ0FBUSxhQUFSLENBQVg7QUFBQSxNQUNBLFFBQUEsRUFBVSxPQUFBLENBQVEsWUFBUixDQURWO0FBQUEsTUFFQSxJQUFBLEVBQU0sT0FBQSxDQUFRLFNBQVIsQ0FGTjtBQUFBLE1BR0EsTUFBQSxFQUFRLE9BQUEsQ0FBUSxVQUFSLENBSFI7QUFBQSxNQUlBLFFBQUEsRUFBVSxPQUFBLENBQVEsWUFBUixDQUpWO0tBREY7QUFBQSxJQU9BLFFBQUEsRUFDRTtBQUFBLE1BQUEsU0FBQSxFQUFXLENBQVg7QUFBQSxNQUNBLFFBQUEsRUFBVSxDQURWO0FBQUEsTUFFQSxJQUFBLEVBQU0sQ0FGTjtBQUFBLE1BR0EsTUFBQSxFQUFRLENBSFI7QUFBQSxNQUlBLFFBQUEsRUFBVSxDQUpWO0tBUkY7QUFBQSxJQWNBLFVBQUEsRUFBWSxTQUFDLEdBQUQsRUFBTSxPQUFOLEVBQWUsT0FBZixHQUFBOztRQUFlLFVBQVU7T0FDbkM7QUFBQSxNQUFBLElBQVUsNEJBQUEsSUFBb0IsQ0FBQSxJQUFLLENBQUEsVUFBRCxDQUFZLEdBQVosQ0FBbEM7QUFBQSxjQUFBLENBQUE7T0FBQTtBQUFBLE1BQ0EsSUFBQyxDQUFBLFFBQVMsQ0FBQSxHQUFBLENBQVYsR0FBaUIsT0FEakIsQ0FBQTtBQUFBLE1BRUEsSUFBQyxDQUFBLFFBQVMsQ0FBQSxHQUFBLENBQVYsR0FBaUIsT0FGakIsQ0FBQTthQUdJLElBQUEsVUFBQSxDQUFXLENBQUEsU0FBQSxLQUFBLEdBQUE7ZUFBQSxTQUFBLEdBQUE7aUJBQ2IsS0FBQyxDQUFBLGFBQUQsQ0FBZSxHQUFmLEVBRGE7UUFBQSxFQUFBO01BQUEsQ0FBQSxDQUFBLENBQUEsSUFBQSxDQUFYLEVBSk07SUFBQSxDQWRaO0FBQUEsSUFzQkEsYUFBQSxFQUFlLFNBQUMsR0FBRCxHQUFBO0FBQ2IsTUFBQSxNQUFBLENBQUEsSUFBUSxDQUFBLFFBQVMsQ0FBQSxHQUFBLENBQWpCLENBQUE7YUFDQSxNQUFBLENBQUEsSUFBUSxDQUFBLFFBQVMsQ0FBQSxHQUFBLEVBRko7SUFBQSxDQXRCZjtBQUFBLElBMEJBLEtBQUEsRUFBTyxTQUFBLEdBQUE7QUFDTCxVQUFBLGlCQUFBO0FBQUE7QUFBQSxXQUFBLDJDQUFBO3FCQUFBO0FBQ0UsUUFBQSxJQUFDLENBQUEsYUFBRCxDQUFlLENBQWYsQ0FBQSxDQURGO0FBQUEsT0FBQTtBQUFBLE1BRUEsSUFBQyxDQUFBLFFBQVEsQ0FBQyxTQUFWLEdBQXNCLE9BQUEsQ0FBUSxhQUFSLENBRnRCLENBQUE7QUFBQSxNQUdBLElBQUMsQ0FBQSxRQUFRLENBQUMsUUFBVixHQUFxQixPQUFBLENBQVEsWUFBUixDQUhyQixDQUFBO0FBQUEsTUFJQSxJQUFDLENBQUEsUUFBUSxDQUFDLElBQVYsR0FBaUIsT0FBQSxDQUFRLFNBQVIsQ0FKakIsQ0FBQTtBQUFBLE1BS0EsSUFBQyxDQUFBLFFBQVEsQ0FBQyxNQUFWLEdBQW1CLE9BQUEsQ0FBUSxVQUFSLENBTG5CLENBQUE7QUFBQSxNQU1BLElBQUMsQ0FBQSxRQUFRLENBQUMsUUFBVixHQUFxQixPQUFBLENBQVEsWUFBUixDQU5yQixDQUFBO0FBQUEsTUFPQSxJQUFDLENBQUEsUUFBUSxDQUFDLFNBQVYsR0FBc0IsQ0FQdEIsQ0FBQTtBQUFBLE1BUUEsSUFBQyxDQUFBLFFBQVEsQ0FBQyxRQUFWLEdBQXFCLENBUnJCLENBQUE7QUFBQSxNQVNBLElBQUMsQ0FBQSxRQUFRLENBQUMsSUFBVixHQUFpQixDQVRqQixDQUFBO0FBQUEsTUFVQSxJQUFDLENBQUEsUUFBUSxDQUFDLE1BQVYsR0FBbUIsQ0FWbkIsQ0FBQTthQVdBLElBQUMsQ0FBQSxRQUFRLENBQUMsUUFBVixHQUFxQixFQVpoQjtJQUFBLENBMUJQO0FBQUEsSUF3Q0EsVUFBQSxFQUFZLFNBQUMsR0FBRCxHQUFBO2FBQ1YsR0FBQSxLQUFRLFdBQVIsSUFBQSxHQUFBLEtBQXFCLFVBQXJCLElBQUEsR0FBQSxLQUFpQyxNQUFqQyxJQUFBLEdBQUEsS0FBeUMsUUFBekMsSUFBQSxHQUFBLEtBQW1ELFdBRHpDO0lBQUEsQ0F4Q1o7R0FIRixDQUFBO0FBQUEiCn0=
+
+//# sourceURL=/home/champ/.atom/packages/build-tools/lib/profiles/profiles.coffee

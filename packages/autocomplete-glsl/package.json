@@ -1,0 +1,165 @@
+{
+  "name": "autocomplete-glsl",
+  "main": "./lib/autocomplete-glsl",
+  "version": "0.2.3",
+  "description": "Adds GLSL autocompletion to autocomplete+",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sveale/autocomplete-glsl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sveale/autocomplete-glsl/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Sverre Aleksandersen",
+    "email": "sverre.aleksandersen@gmail.com"
+  },
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "fs-plus": ">=2.2.3",
+    "q": ">=1.0.1",
+    "fuzzaldrin": ">=1.0.0"
+  },
+  "keywords": [
+    "glsl",
+    "opengl",
+    "autocomplete",
+    "atom",
+    "shader"
+  ],
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "2.0.0": "provide"
+      }
+    }
+  },
+  "readme": "# atom autocomplete+ glsl suggestions\n\nAdds glsl completion to [autocomplete+](https://atom.io/packages/autocomplete-plus).\n\n![Imgur](http://i.imgur.com/aoW4bWq.gif)\n\nThanks to _irreversible_ at [gamedev.net](http://www.gamedev.net/topic/660918-ever-needed-glsl-hilightingautocomplete-in-notepad-try-this/) for compiling an awesome list which this plugin is based on.\n",
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/sveale/autocomplete-glsl#readme",
+  "_id": "autocomplete-glsl@0.2.3",
+  "_shasum": "522c8c67415c86a1384c0e319ad555d6bd46d34e",
+  "_resolved": "file:../d-1151012-17460-trwjnx/package.tgz",
+  "_from": "../d-1151012-17460-trwjnx/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [
+      {
+        "name": "fs-plus",
+        "version": "2.8.1",
+        "path": "node_modules/fs-plus/lib/fs-plus.js"
+      },
+      {
+        "name": "async",
+        "version": "0.2.10",
+        "path": "node_modules/fs-plus/node_modules/async/lib/async.js"
+      },
+      {
+        "name": "mkdirp",
+        "version": "0.3.5",
+        "path": "node_modules/fs-plus/node_modules/mkdirp/index.js"
+      },
+      {
+        "name": "rimraf",
+        "version": "2.2.8",
+        "path": "node_modules/fs-plus/node_modules/rimraf/rimraf.js"
+      },
+      {
+        "name": "underscore-plus",
+        "version": "1.6.6",
+        "path": "node_modules/fs-plus/node_modules/underscore-plus/lib/underscore-plus.js"
+      },
+      {
+        "name": "underscore",
+        "version": "1.6.0",
+        "path": "node_modules/fs-plus/node_modules/underscore-plus/node_modules/underscore/underscore.js"
+      },
+      {
+        "name": "fuzzaldrin",
+        "version": "2.1.0",
+        "path": "node_modules/fuzzaldrin/lib/fuzzaldrin.js"
+      },
+      {
+        "name": "q",
+        "version": "1.4.1",
+        "path": "node_modules/q/q.js"
+      }
+    ],
+    "extensions": {
+      ".coffee": [
+        "lib/autocomplete-glsl.coffee",
+        "lib/function.coffee",
+        "lib/glsl-provider.coffee",
+        "lib/keyword.coffee"
+      ],
+      ".js": [
+        "node_modules/fs-plus/lib/fs-plus.js",
+        "node_modules/fs-plus/node_modules/async/lib/async.js",
+        "node_modules/fs-plus/node_modules/mkdirp/examples/pow.js",
+        "node_modules/fs-plus/node_modules/mkdirp/index.js",
+        "node_modules/fs-plus/node_modules/rimraf/bin.js",
+        "node_modules/fs-plus/node_modules/rimraf/rimraf.js",
+        "node_modules/fs-plus/node_modules/underscore-plus/lib/underscore-plus.js",
+        "node_modules/fs-plus/node_modules/underscore-plus/node_modules/underscore/underscore-min.js",
+        "node_modules/fs-plus/node_modules/underscore-plus/node_modules/underscore/underscore.js",
+        "node_modules/fuzzaldrin/lib/filter.js",
+        "node_modules/fuzzaldrin/lib/fuzzaldrin.js",
+        "node_modules/fuzzaldrin/lib/matcher.js",
+        "node_modules/fuzzaldrin/lib/scorer.js",
+        "node_modules/q/q.js",
+        "node_modules/q/queue.js"
+      ],
+      ".json": [
+        "node_modules/fs-plus/node_modules/async/component.json",
+        "node_modules/fs-plus/node_modules/async/package.json",
+        "node_modules/fs-plus/node_modules/mkdirp/package.json",
+        "node_modules/fs-plus/node_modules/rimraf/package.json",
+        "node_modules/fs-plus/node_modules/underscore-plus/node_modules/underscore/package.json",
+        "node_modules/fs-plus/node_modules/underscore-plus/package.json",
+        "node_modules/fs-plus/package.json",
+        "node_modules/fuzzaldrin/package.json",
+        "node_modules/q/package.json",
+        "package.json"
+      ]
+    },
+    "folders": [
+      {
+        "paths": [
+          "data",
+          "lib",
+          "",
+          "spec"
+        ],
+        "dependencies": {
+          "fs-plus": ">=2.2.3",
+          "q": ">=1.0.1",
+          "fuzzaldrin": ">=1.0.0"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/fs-plus/lib",
+          "node_modules/fs-plus"
+        ],
+        "dependencies": {
+          "underscore-plus": "1.x",
+          "mkdirp": "~0.3.5",
+          "rimraf": "~2.2.2",
+          "async": "~0.2.9"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/fs-plus/node_modules/underscore-plus/lib",
+          "node_modules/fs-plus/node_modules/underscore-plus"
+        ],
+        "dependencies": {
+          "underscore": "~1.6.0"
+        }
+      }
+    ]
+  }
+}

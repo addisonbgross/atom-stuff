@@ -1,0 +1,1 @@
+{".platform-darwin":{"cmd-shift-c":"pacmanfy:toggle"},".platform-win32, .platfor-linux":{"ctrl-shift-c":"pacmanfy:toggle"}}

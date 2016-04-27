@@ -1,0 +1,69 @@
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
+
+var _path = require('path');
+
+var path = _interopRequireWildcard(_path);
+
+"use babel";
+
+var miPath = path.join(__dirname, 'files', 'missing_import');
+
+describe('The Clang provider for AtomLinter', function () {
+  var lint = require('../lib/main').provideLinter().lint;
+
+  beforeEach(function () {
+    waitsForPromise(function () {
+      return atom.packages.activatePackage("linter-clang");
+    });
+  });
+
+  it('finds a fatal error in "missing_import.c"', function () {
+    waitsForPromise(function () {
+      return atom.workspace.open(miPath + '.c').then(function (editor) {
+        return lint(editor).then(function (messages) {
+          expect(messages.length).toEqual(1);
+          expect(messages[0].type).toEqual("fatal error");
+          expect(messages[0].text).toEqual("'nothing.h' file not found");
+        });
+      });
+    });
+  });
+
+  it('finds a fatal error in "missing_import.cpp"', function () {
+    waitsForPromise(function () {
+      return atom.workspace.open(miPath + '.cpp').then(function (editor) {
+        return lint(editor).then(function (messages) {
+          expect(messages.length).toEqual(1);
+          expect(messages[0].type).toEqual("fatal error");
+          expect(messages[0].text).toEqual("'nothing.h' file not found");
+        });
+      });
+    });
+  });
+
+  it('finds a fatal error in "missing_import.m"', function () {
+    waitsForPromise(function () {
+      return atom.workspace.open(miPath + '.m').then(function (editor) {
+        return lint(editor).then(function (messages) {
+          expect(messages.length).toEqual(1);
+          expect(messages[0].type).toEqual("fatal error");
+          expect(messages[0].text).toEqual("'nothing.h' file not found");
+        });
+      });
+    });
+  });
+
+  it('finds a fatal error in "missing_import.mm"', function () {
+    waitsForPromise(function () {
+      return atom.workspace.open(miPath + '.mm').then(function (editor) {
+        return lint(editor).then(function (messages) {
+          expect(messages.length).toEqual(1);
+          expect(messages[0].type).toEqual("fatal error");
+          expect(messages[0].text).toEqual("'nothing.h' file not found");
+        });
+      });
+    });
+  });
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2NoYW1wLy5hdG9tL3BhY2thZ2VzL2xpbnRlci1jbGFuZy9zcGVjL2xpbnRlci1jbGFuZy1zcGVjLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O29CQUVzQixNQUFNOztJQUFoQixJQUFJOztBQUZoQixXQUFXLENBQUM7O0FBSVosSUFBTSxNQUFNLEdBQUcsSUFBSSxDQUFDLElBQUksQ0FBQyxTQUFTLEVBQUUsT0FBTyxFQUFFLGdCQUFnQixDQUFDLENBQUM7O0FBRS9ELFFBQVEsQ0FBQyxtQ0FBbUMsRUFBRSxZQUFNO0FBQ2xELE1BQU0sSUFBSSxHQUFHLE9BQU8sQ0FBQyxhQUFhLENBQUMsQ0FBQyxhQUFhLEVBQUUsQ0FBQyxJQUFJLENBQUE7O0FBRXhELFlBQVUsQ0FBQyxZQUFNO0FBQ2YsbUJBQWUsQ0FBQyxZQUFNO0FBQ3BCLGFBQU8sSUFBSSxDQUFDLFFBQVEsQ0FBQyxlQUFlLENBQUMsY0FBYyxDQUFDLENBQUE7S0FDckQsQ0FBQyxDQUFBO0dBQ0gsQ0FBQyxDQUFBOztBQUVGLElBQUUsQ0FBQywyQ0FBMkMsRUFBRSxZQUFNO0FBQ3BELG1CQUFlLENBQUMsWUFBTTtBQUNwQixhQUFPLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLE1BQU0sR0FBRyxJQUFJLENBQUMsQ0FBQyxJQUFJLENBQUMsVUFBQSxNQUFNLEVBQUk7QUFDdkQsZUFBTyxJQUFJLENBQUMsTUFBTSxDQUFDLENBQUMsSUFBSSxDQUFDLFVBQUEsUUFBUSxFQUFJO0FBQ25DLGdCQUFNLENBQUMsUUFBUSxDQUFDLE1BQU0sQ0FBQyxDQUFDLE9BQU8sQ0FBQyxDQUFDLENBQUMsQ0FBQTtBQUNsQyxnQkFBTSxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsQ0FBQyxPQUFPLENBQUMsYUFBYSxDQUFDLENBQUE7QUFDL0MsZ0JBQU0sQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLENBQUMsT0FBTyxDQUFDLDRCQUE0QixDQUFDLENBQUE7U0FDL0QsQ0FBQyxDQUFBO09BQ0gsQ0FBQyxDQUFBO0tBQ0gsQ0FBQyxDQUFBO0dBQ0gsQ0FBQyxDQUFBOztBQUVGLElBQUUsQ0FBQyw2Q0FBNkMsRUFBRSxZQUFNO0FBQ3RELG1CQUFlLENBQUMsWUFBTTtBQUNwQixhQUFPLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLE1BQU0sR0FBRyxNQUFNLENBQUMsQ0FBQyxJQUFJLENBQUMsVUFBQSxNQUFNLEVBQUk7QUFDekQsZUFBTyxJQUFJLENBQUMsTUFBTSxDQUFDLENBQUMsSUFBSSxDQUFDLFVBQUEsUUFBUSxFQUFJO0FBQ25DLGdCQUFNLENBQUMsUUFBUSxDQUFDLE1BQU0sQ0FBQyxDQUFDLE9BQU8sQ0FBQyxDQUFDLENBQUMsQ0FBQTtBQUNsQyxnQkFBTSxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsQ0FBQyxPQUFPLENBQUMsYUFBYSxDQUFDLENBQUE7QUFDL0MsZ0JBQU0sQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLENBQUMsT0FBTyxDQUFDLDRCQUE0QixDQUFDLENBQUE7U0FDL0QsQ0FBQyxDQUFBO09BQ0gsQ0FBQyxDQUFBO0tBQ0gsQ0FBQyxDQUFBO0dBQ0gsQ0FBQyxDQUFBOztBQUVGLElBQUUsQ0FBQywyQ0FBMkMsRUFBRSxZQUFNO0FBQ3BELG1CQUFlLENBQUMsWUFBTTtBQUNwQixhQUFPLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLE1BQU0sR0FBRyxJQUFJLENBQUMsQ0FBQyxJQUFJLENBQUMsVUFBQSxNQUFNLEVBQUk7QUFDdkQsZUFBTyxJQUFJLENBQUMsTUFBTSxDQUFDLENBQUMsSUFBSSxDQUFDLFVBQUEsUUFBUSxFQUFJO0FBQ25DLGdCQUFNLENBQUMsUUFBUSxDQUFDLE1BQU0sQ0FBQyxDQUFDLE9BQU8sQ0FBQyxDQUFDLENBQUMsQ0FBQTtBQUNsQyxnQkFBTSxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsQ0FBQyxPQUFPLENBQUMsYUFBYSxDQUFDLENBQUE7QUFDL0MsZ0JBQU0sQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLENBQUMsT0FBTyxDQUFDLDRCQUE0QixDQUFDLENBQUE7U0FDL0QsQ0FBQyxDQUFBO09BQ0gsQ0FBQyxDQUFBO0tBQ0gsQ0FBQyxDQUFBO0dBQ0gsQ0FBQyxDQUFBOztBQUVGLElBQUUsQ0FBQyw0Q0FBNEMsRUFBRSxZQUFNO0FBQ3JELG1CQUFlLENBQUMsWUFBTTtBQUNwQixhQUFPLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLE1BQU0sR0FBRyxLQUFLLENBQUMsQ0FBQyxJQUFJLENBQUMsVUFBQSxNQUFNLEVBQUk7QUFDeEQsZUFBTyxJQUFJLENBQUMsTUFBTSxDQUFDLENBQUMsSUFBSSxDQUFDLFVBQUEsUUFBUSxFQUFJO0FBQ25DLGdCQUFNLENBQUMsUUFBUSxDQUFDLE1BQU0sQ0FBQyxDQUFDLE9BQU8sQ0FBQyxDQUFDLENBQUMsQ0FBQTtBQUNsQyxnQkFBTSxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsQ0FBQyxPQUFPLENBQUMsYUFBYSxDQUFDLENBQUE7QUFDL0MsZ0JBQU0sQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLENBQUMsT0FBTyxDQUFDLDRCQUE0QixDQUFDLENBQUE7U0FDL0QsQ0FBQyxDQUFBO09BQ0gsQ0FBQyxDQUFBO0tBQ0gsQ0FBQyxDQUFBO0dBQ0gsQ0FBQyxDQUFBO0NBQ0gsQ0FBQyxDQUFBIiwiZmlsZSI6Ii9ob21lL2NoYW1wLy5hdG9tL3BhY2thZ2VzL2xpbnRlci1jbGFuZy9zcGVjL2xpbnRlci1jbGFuZy1zcGVjLmpzIiwic291cmNlc0NvbnRlbnQiOlsiXCJ1c2UgYmFiZWxcIjtcblxuaW1wb3J0ICogYXMgcGF0aCBmcm9tICdwYXRoJztcblxuY29uc3QgbWlQYXRoID0gcGF0aC5qb2luKF9fZGlybmFtZSwgJ2ZpbGVzJywgJ21pc3NpbmdfaW1wb3J0Jyk7XG5cbmRlc2NyaWJlKCdUaGUgQ2xhbmcgcHJvdmlkZXIgZm9yIEF0b21MaW50ZXInLCAoKSA9PiB7XG4gIGNvbnN0IGxpbnQgPSByZXF1aXJlKCcuLi9saWIvbWFpbicpLnByb3ZpZGVMaW50ZXIoKS5saW50XG5cbiAgYmVmb3JlRWFjaCgoKSA9PiB7XG4gICAgd2FpdHNGb3JQcm9taXNlKCgpID0+IHtcbiAgICAgIHJldHVybiBhdG9tLnBhY2thZ2VzLmFjdGl2YXRlUGFja2FnZShcImxpbnRlci1jbGFuZ1wiKVxuICAgIH0pXG4gIH0pXG5cbiAgaXQoJ2ZpbmRzIGEgZmF0YWwgZXJyb3IgaW4gXCJtaXNzaW5nX2ltcG9ydC5jXCInLCAoKSA9PiB7XG4gICAgd2FpdHNGb3JQcm9taXNlKCgpID0+IHtcbiAgICAgIHJldHVybiBhdG9tLndvcmtzcGFjZS5vcGVuKG1pUGF0aCArICcuYycpLnRoZW4oZWRpdG9yID0+IHtcbiAgICAgICAgcmV0dXJuIGxpbnQoZWRpdG9yKS50aGVuKG1lc3NhZ2VzID0+IHtcbiAgICAgICAgICBleHBlY3QobWVzc2FnZXMubGVuZ3RoKS50b0VxdWFsKDEpXG4gICAgICAgICAgZXhwZWN0KG1lc3NhZ2VzWzBdLnR5cGUpLnRvRXF1YWwoXCJmYXRhbCBlcnJvclwiKVxuICAgICAgICAgIGV4cGVjdChtZXNzYWdlc1swXS50ZXh0KS50b0VxdWFsKFwiJ25vdGhpbmcuaCcgZmlsZSBub3QgZm91bmRcIilcbiAgICAgICAgfSlcbiAgICAgIH0pXG4gICAgfSlcbiAgfSlcblxuICBpdCgnZmluZHMgYSBmYXRhbCBlcnJvciBpbiBcIm1pc3NpbmdfaW1wb3J0LmNwcFwiJywgKCkgPT4ge1xuICAgIHdhaXRzRm9yUHJvbWlzZSgoKSA9PiB7XG4gICAgICByZXR1cm4gYXRvbS53b3Jrc3BhY2Uub3BlbihtaVBhdGggKyAnLmNwcCcpLnRoZW4oZWRpdG9yID0+IHtcbiAgICAgICAgcmV0dXJuIGxpbnQoZWRpdG9yKS50aGVuKG1lc3NhZ2VzID0+IHtcbiAgICAgICAgICBleHBlY3QobWVzc2FnZXMubGVuZ3RoKS50b0VxdWFsKDEpXG4gICAgICAgICAgZXhwZWN0KG1lc3NhZ2VzWzBdLnR5cGUpLnRvRXF1YWwoXCJmYXRhbCBlcnJvclwiKVxuICAgICAgICAgIGV4cGVjdChtZXNzYWdlc1swXS50ZXh0KS50b0VxdWFsKFwiJ25vdGhpbmcuaCcgZmlsZSBub3QgZm91bmRcIilcbiAgICAgICAgfSlcbiAgICAgIH0pXG4gICAgfSlcbiAgfSlcblxuICBpdCgnZmluZHMgYSBmYXRhbCBlcnJvciBpbiBcIm1pc3NpbmdfaW1wb3J0Lm1cIicsICgpID0+IHtcbiAgICB3YWl0c0ZvclByb21pc2UoKCkgPT4ge1xuICAgICAgcmV0dXJuIGF0b20ud29ya3NwYWNlLm9wZW4obWlQYXRoICsgJy5tJykudGhlbihlZGl0b3IgPT4ge1xuICAgICAgICByZXR1cm4gbGludChlZGl0b3IpLnRoZW4obWVzc2FnZXMgPT4ge1xuICAgICAgICAgIGV4cGVjdChtZXNzYWdlcy5sZW5ndGgpLnRvRXF1YWwoMSlcbiAgICAgICAgICBleHBlY3QobWVzc2FnZXNbMF0udHlwZSkudG9FcXVhbChcImZhdGFsIGVycm9yXCIpXG4gICAgICAgICAgZXhwZWN0KG1lc3NhZ2VzWzBdLnRleHQpLnRvRXF1YWwoXCInbm90aGluZy5oJyBmaWxlIG5vdCBmb3VuZFwiKVxuICAgICAgICB9KVxuICAgICAgfSlcbiAgICB9KVxuICB9KVxuXG4gIGl0KCdmaW5kcyBhIGZhdGFsIGVycm9yIGluIFwibWlzc2luZ19pbXBvcnQubW1cIicsICgpID0+IHtcbiAgICB3YWl0c0ZvclByb21pc2UoKCkgPT4ge1xuICAgICAgcmV0dXJuIGF0b20ud29ya3NwYWNlLm9wZW4obWlQYXRoICsgJy5tbScpLnRoZW4oZWRpdG9yID0+IHtcbiAgICAgICAgcmV0dXJuIGxpbnQoZWRpdG9yKS50aGVuKG1lc3NhZ2VzID0+IHtcbiAgICAgICAgICBleHBlY3QobWVzc2FnZXMubGVuZ3RoKS50b0VxdWFsKDEpXG4gICAgICAgICAgZXhwZWN0KG1lc3NhZ2VzWzBdLnR5cGUpLnRvRXF1YWwoXCJmYXRhbCBlcnJvclwiKVxuICAgICAgICAgIGV4cGVjdChtZXNzYWdlc1swXS50ZXh0KS50b0VxdWFsKFwiJ25vdGhpbmcuaCcgZmlsZSBub3QgZm91bmRcIilcbiAgICAgICAgfSlcbiAgICAgIH0pXG4gICAgfSlcbiAgfSlcbn0pXG4iXX0=
+//# sourceURL=/home/champ/.atom/packages/linter-clang/spec/linter-clang-spec.js

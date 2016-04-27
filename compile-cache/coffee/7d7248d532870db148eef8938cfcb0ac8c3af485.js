@@ -1,0 +1,45 @@
+(function() {
+  var MainInfoPane;
+
+  MainInfoPane = require('../lib/view/command-info-main-pane');
+
+  describe('Command Info Main Pane', function() {
+    var command, view;
+    view = null;
+    command = null;
+    beforeEach(function() {
+      command = {
+        project: atom.project.getPaths()[0],
+        oldname: 'Test 1',
+        name: 'Test 1',
+        command: 'echo test',
+        wd: '.',
+        stdout: {
+          highlighting: 'nh'
+        },
+        stderr: {
+          highlighting: 'hc',
+          profile: 'python'
+        },
+        output: {
+          console: {
+            close_success: true
+          }
+        }
+      };
+      return view = new MainInfoPane(command);
+    });
+    it('has an element', function() {
+      return expect(view.element).toBeDefined();
+    });
+    return it('has all values', function() {
+      expect(view.element.children[1].children[0].innerText).toBe('echo test');
+      return expect(view.element.children[1].children[1].innerText).toBe('.');
+    });
+  });
+
+}).call(this);
+
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAiZmlsZSI6ICIiLAogICJzb3VyY2VSb290IjogIiIsCiAgInNvdXJjZXMiOiBbCiAgICAiL2hvbWUvY2hhbXAvLmF0b20vcGFja2FnZXMvYnVpbGQtdG9vbHMvc3BlYy9jb21tYW5kLWluZm8tbWFpbi1wYW5lLXNwZWMuY29mZmVlIgogIF0sCiAgIm5hbWVzIjogW10sCiAgIm1hcHBpbmdzIjogIkFBQUE7QUFBQSxNQUFBLFlBQUE7O0FBQUEsRUFBQSxZQUFBLEdBQWUsT0FBQSxDQUFRLG9DQUFSLENBQWYsQ0FBQTs7QUFBQSxFQUVBLFFBQUEsQ0FBUyx3QkFBVCxFQUFtQyxTQUFBLEdBQUE7QUFDakMsUUFBQSxhQUFBO0FBQUEsSUFBQSxJQUFBLEdBQU8sSUFBUCxDQUFBO0FBQUEsSUFDQSxPQUFBLEdBQVUsSUFEVixDQUFBO0FBQUEsSUFHQSxVQUFBLENBQVcsU0FBQSxHQUFBO0FBQ1QsTUFBQSxPQUFBLEdBQ0U7QUFBQSxRQUFBLE9BQUEsRUFBUyxJQUFJLENBQUMsT0FBTyxDQUFDLFFBQWIsQ0FBQSxDQUF3QixDQUFBLENBQUEsQ0FBakM7QUFBQSxRQUNBLE9BQUEsRUFBUyxRQURUO0FBQUEsUUFFQSxJQUFBLEVBQU0sUUFGTjtBQUFBLFFBR0EsT0FBQSxFQUFTLFdBSFQ7QUFBQSxRQUlBLEVBQUEsRUFBSSxHQUpKO0FBQUEsUUFLQSxNQUFBLEVBQ0U7QUFBQSxVQUFBLFlBQUEsRUFBYyxJQUFkO1NBTkY7QUFBQSxRQU9BLE1BQUEsRUFDRTtBQUFBLFVBQUEsWUFBQSxFQUFjLElBQWQ7QUFBQSxVQUNBLE9BQUEsRUFBUyxRQURUO1NBUkY7QUFBQSxRQVVBLE1BQUEsRUFDRTtBQUFBLFVBQUEsT0FBQSxFQUNFO0FBQUEsWUFBQSxhQUFBLEVBQWUsSUFBZjtXQURGO1NBWEY7T0FERixDQUFBO2FBZUEsSUFBQSxHQUFXLElBQUEsWUFBQSxDQUFhLE9BQWIsRUFoQkY7SUFBQSxDQUFYLENBSEEsQ0FBQTtBQUFBLElBcUJBLEVBQUEsQ0FBRyxnQkFBSCxFQUFxQixTQUFBLEdBQUE7YUFDbkIsTUFBQSxDQUFPLElBQUksQ0FBQyxPQUFaLENBQW9CLENBQUMsV0FBckIsQ0FBQSxFQURtQjtJQUFBLENBQXJCLENBckJBLENBQUE7V0F3QkEsRUFBQSxDQUFHLGdCQUFILEVBQXFCLFNBQUEsR0FBQTtBQUNuQixNQUFBLE1BQUEsQ0FBTyxJQUFJLENBQUMsT0FBTyxDQUFDLFFBQVMsQ0FBQSxDQUFBLENBQUUsQ0FBQyxRQUFTLENBQUEsQ0FBQSxDQUFFLENBQUMsU0FBNUMsQ0FBc0QsQ0FBQyxJQUF2RCxDQUE0RCxXQUE1RCxDQUFBLENBQUE7YUFDQSxNQUFBLENBQU8sSUFBSSxDQUFDLE9BQU8sQ0FBQyxRQUFTLENBQUEsQ0FBQSxDQUFFLENBQUMsUUFBUyxDQUFBLENBQUEsQ0FBRSxDQUFDLFNBQTVDLENBQXNELENBQUMsSUFBdkQsQ0FBNEQsR0FBNUQsRUFGbUI7SUFBQSxDQUFyQixFQXpCaUM7RUFBQSxDQUFuQyxDQUZBLENBQUE7QUFBQSIKfQ==
+
+//# sourceURL=/home/champ/.atom/packages/build-tools/spec/command-info-main-pane-spec.coffee

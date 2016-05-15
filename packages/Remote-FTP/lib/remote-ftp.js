@@ -77,7 +77,8 @@ module.exports = {
 					"secureOptions": null,
 					"connTimeout": 10000,
 					"pasvTimeout": 10000,
-					"keepalive": 10000
+					"keepalive": 10000,
+					"watch":[]
 				}, null, 4), function (err) {
 					if (!err)
 						atom.workspace.open(atom.project.getDirectories()[0].resolve('.ftpconfig'));
@@ -102,7 +103,8 @@ module.exports = {
 					"ignorehost": true,
 					"connTimeout": 10000,
 					"keepalive": 10000,
-					"keyboardInteractive": false
+					"keyboardInteractive": false,
+					"watch":[]
 				}, null, 4), function (err) {
 					if (!err)
 						atom.workspace.open(atom.project.getDirectories()[0].resolve('.ftpconfig'));
@@ -120,7 +122,8 @@ module.exports = {
 
 				atom.project.remoteftp.readConfig(function (e) {
 					if (e) {
-						throw "Could not read `.ftpconfig` file";
+						atom.notifications.addError("Could not read `.ftpconfig` file", { detail: e } );
+						return;
 					}
 
 					if (!self.treeView.isVisible()) {
@@ -389,6 +392,15 @@ module.exports = {
 			var listener = buffer.onDidSave(self.fileSaved.bind(self));
 			self.listeners.push(listener);
 		});
+
+		self.listeners.push(atom.project.onDidChangePaths(function() {
+			if(!hasProject() || !atom.project.remoteftp.isConnected()) {
+				return;
+			}
+
+			atom.commands.dispatch(atom.views.getView(atom.workspace), 'remote-ftp:disconnect');
+			atom.commands.dispatch(atom.views.getView(atom.workspace), 'remote-ftp:connect');
+		}));
 	},
 
 	deactivate: function () {
@@ -420,6 +432,9 @@ module.exports = {
 
 		if (local == atom.project.getDirectories()[0].resolve('.ftpconfig'))
 			return;
+
+		// don't upload files watched, they will be uploaded by the watcher
+		if (atom.project.remoteftp.watch.files.indexOf(local) >= 0) return;
 
 		atom.project.remoteftp.upload(local, function (err) {
 			try {

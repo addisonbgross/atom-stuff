@@ -20,8 +20,11 @@
     # hotline
     'ctrl-1' : 'atom-cscope:toggle'
     'ctrl-2' : 'php-debug:toggleDebugging'
-    'ctrl-9' : 'todo-show:find-in-project'
     'ctrl-0' : 'build-tools:first-command'
+
+    # symbols
+    'alt-shift-down' : 'symbols-view:go-to-declaration'
+    'alt-shift-up' : 'symbols-view:return-from-declaration'
 
     # ui
     'ctrl-alt-p' : 'activate-power-mode:toggle'

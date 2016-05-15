@@ -1,7 +1,7 @@
 {
   "name": "build-tools",
   "main": "./lib/main",
-  "version": "4.4.0",
+  "version": "4.5.1",
   "description": "Build your projects in atom",
   "repository": {
     "type": "git",
@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "ps-tree": "^1.0.0",
-    "ptyw.js": "^0.3.0",
     "atom-space-pen-views": "^2.0.0",
     "fs-plus": "^2.0.4",
     "season": "^5.2.0",
@@ -58,6 +57,11 @@
         "^1.0.0": "consumeProviderModule"
       }
     },
+    "build-tools.environment": {
+      "versions": {
+        "^1.0.0": "consumeEnvironmentModule"
+      }
+    },
     "build-tools.stream-modifier": {
       "versions": {
         "^1.0.0": "consumeStreamModifier"
@@ -69,16 +73,16 @@
       }
     }
   },
-  "readme": "build-tools\n===============\n[![Travis](https://img.shields.io/travis/deprint/build-tools-cpp.svg?style=flat-square)](https://travis-ci.org/deprint/build-tools-cpp) [![AppVeyor](https://img.shields.io/appveyor/ci/deprint/build-tools-cpp.svg?style=flat-square)](https://ci.appveyor.com/project/deprint/build-tools-cpp) [![Dependency Status](https://david-dm.org/deprint/build-tools-cpp.svg?style=flat-square)](https://david-dm.org/deprint/build-tools-cpp) [![apm](https://img.shields.io/apm/dm/build-tools.svg?style=flat-square)](https://github.com/deprint/build-tools-cpp) [![apm](https://img.shields.io/apm/v/build-tools.svg?style=flat-square)](https://github.com/deprint/build-tools-cpp)\n\n### Build your projects in atom\n![Error highlighting](https://cloud.githubusercontent.com/assets/7817714/10537808/91cbf92c-73f4-11e5-9f0d-15348000c31f.png)\n\n![Settings](https://cloud.githubusercontent.com/assets/7817714/10537701/e17d8b08-73f3-11e5-8b06-3981489b537d.gif)\n\n## Features\n* Execute programs/compilers in Atom\n* Set up different commands for different projects\n* Can highlight <b>GCC, Clang, Python, Java, Modelsim and apm test</b>\n* Errors are highlighted both inside the console and in-line with [Linter](https://github.com/atom-community/linter)\n* File coordinates are highlighted and can be opened\n* Service interface for other package developers\n\n## HowTo\n\n1. Create a file called `.build-tools.cson` (preferably in your project's root folder)\n2. Click `Add Provider`\n3. Click `Add Custom Commands`\n4. Click `Add Command`\n5. Configure your command\n6. Execute your command through one of the key bindings.\n\n## Keys\n* `ctrl+l ctrl+o/i/u` for executing the 1st/2nd/3rd command of a project\n* `ctrl+l ctrl+l` to list all commands of a project\n* `ctrl+l ctrl+s` to show console output\n* `ctrl+l o/i/u` lets you view and change the command before executing it\n\n## Service API\n`build-tools` allows other packages to:\n* add their own highlighting profiles\n* execute their own commands\n* provide their own commands\n* modify command parameters\n* get the command's output\n* modify the command's output\n* display their own content through `build-tools` tabbed console pane\n\nRefer to the [wiki](https://github.com/deprint/build-tools-cpp/wiki) for details.\n\n## Contributing\n* Let me know if you encounter any bugs.\n* Feature requests and critique are always welcome.\n",
+  "readme": "build-tools\n===============\n[![Travis](https://img.shields.io/travis/deprint/build-tools-cpp.svg?style=flat-square)](https://travis-ci.org/deprint/build-tools-cpp) [![AppVeyor](https://img.shields.io/appveyor/ci/deprint/build-tools-cpp.svg?style=flat-square)](https://ci.appveyor.com/project/deprint/build-tools-cpp) [![Dependency Status](https://david-dm.org/deprint/build-tools-cpp.svg?style=flat-square)](https://david-dm.org/deprint/build-tools-cpp) [![apm](https://img.shields.io/apm/dm/build-tools.svg?style=flat-square)](https://github.com/deprint/build-tools-cpp) [![apm](https://img.shields.io/apm/v/build-tools.svg?style=flat-square)](https://github.com/deprint/build-tools-cpp)\n\n### Build your projects in atom\n![Error highlighting](https://cloud.githubusercontent.com/assets/7817714/10537808/91cbf92c-73f4-11e5-9f0d-15348000c31f.png)\n\n![Settings](https://cloud.githubusercontent.com/assets/7817714/10537701/e17d8b08-73f3-11e5-8b06-3981489b537d.gif)\n\n## Features\n* Execute programs/compilers in Atom\n* Set up different commands for different projects\n* Can highlight <b>GCC, Clang, Python, Java, Modelsim and apm test</b>\n* Errors are highlighted both inside the console and in-line with [Linter](https://github.com/atom-community/linter)\n* File coordinates are highlighted and can be opened\n* Service interface for other package developers\n\n## HowTo\n\n1. Create a file called `.build-tools.cson` (preferably in your project's root folder)\n2. Click `Add Provider`\n3. Click `Add Custom Commands`\n4. Click `Add Command`\n5. Configure your command\n6. Execute your command through one of the key bindings.\n\n## Keys\n* `ctrl+l ctrl+o/i/u` for executing the 1st/2nd/3rd command of a project\n* `ctrl+l ctrl+l` to list all commands of a project\n* `ctrl+l ctrl+s` to show console output\n* `ctrl+l o/i/u` lets you view and change the command before executing it\n\n## Service API\n`build-tools` allows other packages to:\n* add their own highlighting profiles\n* execute their own commands\n* provide their own commands\n* provide their own output streams\n* modify command parameters\n* get the command's output\n* modify the command's output\n* display their own content through `build-tools` tabbed console pane\n\nRefer to the [wiki](https://github.com/deprint/build-tools-cpp/wiki) for details.\n\n## Contributing\n* Let me know if you encounter any bugs.\n* Feature requests and critique are always welcome.\n",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/deprint/build-tools-cpp/issues"
   },
   "homepage": "https://github.com/deprint/build-tools-cpp#readme",
-  "_id": "build-tools@4.4.0",
-  "_shasum": "ffa37ba2646052ae5e3c70fe1aa49c7636c43474",
-  "_resolved": "file:../d-116314-14147-gvefmn/package.tgz",
-  "_from": "../d-116314-14147-gvefmn/package.tgz",
+  "_id": "build-tools@4.5.1",
+  "_shasum": "49835aa267bbea4dcd2ee9c00368584a08966278",
+  "_resolved": "file:../d-116326-20510-1v4c7k3/package.tgz",
+  "_from": "../d-116326-20510-1v4c7k3/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -243,21 +247,6 @@
         "path": "node_modules/ps-tree/node_modules/event-stream/node_modules/through/index.js"
       },
       {
-        "name": "ptyw.js",
-        "version": "0.3.7",
-        "path": "node_modules/ptyw.js/index.js"
-      },
-      {
-        "name": "extend",
-        "version": "3.0.0",
-        "path": "node_modules/ptyw.js/node_modules/extend/index.js"
-      },
-      {
-        "name": "nan",
-        "version": "2.1.0",
-        "path": "node_modules/ptyw.js/node_modules/nan/include_dirs.js"
-      },
-      {
         "name": "season",
         "version": "5.3.0",
         "path": "node_modules/season/lib/cson.js"
@@ -326,12 +315,6 @@
         "node_modules/ps-tree/node_modules/event-stream/node_modules/through/package.json",
         "node_modules/ps-tree/node_modules/event-stream/package.json",
         "node_modules/ps-tree/package.json",
-        "node_modules/ptyw.js/node_modules/extend/.jscs.json",
-        "node_modules/ptyw.js/node_modules/extend/component.json",
-        "node_modules/ptyw.js/node_modules/extend/package.json",
-        "node_modules/ptyw.js/node_modules/nan/package.json",
-        "node_modules/ptyw.js/node_modules/nan/tools/package.json",
-        "node_modules/ptyw.js/package.json",
         "node_modules/season/node_modules/cson-parser/node_modules/coffee-script/bower.json",
         "node_modules/season/node_modules/cson-parser/node_modules/coffee-script/package.json",
         "node_modules/season/node_modules/cson-parser/package.json",
@@ -350,7 +333,6 @@
         "lib/console/tab.coffee",
         "lib/environment/child-process.coffee",
         "lib/environment/environment.coffee",
-        "lib/environment/ptyw.coffee",
         "lib/linter-list.coffee",
         "lib/main.coffee",
         "lib/modifier/dependency.coffee",
@@ -957,12 +939,6 @@
         "node_modules/ps-tree/node_modules/event-stream/node_modules/split/index.js",
         "node_modules/ps-tree/node_modules/event-stream/node_modules/stream-combiner/index.js",
         "node_modules/ps-tree/node_modules/event-stream/node_modules/through/index.js",
-        "node_modules/ptyw.js/index.js",
-        "node_modules/ptyw.js/lib/pty.js",
-        "node_modules/ptyw.js/lib/pty_win.js",
-        "node_modules/ptyw.js/node_modules/extend/index.js",
-        "node_modules/ptyw.js/node_modules/nan/include_dirs.js",
-        "node_modules/ptyw.js/node_modules/nan/tools/1to2.js",
         "node_modules/season/lib/cson.js",
         "node_modules/season/lib/csonc.js",
         "node_modules/season/node_modules/cson-parser/lib/cson-parser.js",
@@ -1006,10 +982,6 @@
         "node_modules/season/node_modules/optimist/node_modules/wordwrap/example/meat.js",
         "node_modules/season/node_modules/optimist/node_modules/wordwrap/index.js",
         "node_modules/xregexp/xregexp-all.js"
-      ],
-      ".node": [
-        "node_modules/ptyw.js/build/Release/obj.target/pty.node",
-        "node_modules/ptyw.js/build/Release/pty.node"
       ]
     },
     "folders": [
@@ -1030,7 +1002,6 @@
         ],
         "dependencies": {
           "ps-tree": "^1.0.0",
-          "ptyw.js": "^0.3.0",
           "atom-space-pen-views": "^2.0.0",
           "fs-plus": "^2.0.4",
           "season": "^5.2.0",
@@ -1400,18 +1371,6 @@
         ],
         "dependencies": {
           "duplexer": "~0.1.1"
-        }
-      },
-      {
-        "paths": [
-          "node_modules/ptyw.js/build/Release/obj.target",
-          "node_modules/ptyw.js/build/Release",
-          "node_modules/ptyw.js",
-          "node_modules/ptyw.js/lib"
-        ],
-        "dependencies": {
-          "extend": "~3.0.0",
-          "nan": "2.1.0"
         }
       },
       {

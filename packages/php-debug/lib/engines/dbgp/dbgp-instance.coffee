@@ -367,9 +367,14 @@ class DbgpInstance extends DebugContext
             datum.value.push @parseContextVariable({variable:property})
       when "object"
         datum.value = []
+        if variable.$.classname
+          datum.className = variable.$.classname
         if variable.property
           for property in variable.property
             datum.value.push @parseContextVariable({variable:property})
+      when "resource"
+        datum.type = "resource"
+        datum.value = variable._
       when "int"
         datum.type = "numeric"
         datum.value = variable._

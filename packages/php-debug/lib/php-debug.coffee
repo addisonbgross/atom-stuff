@@ -44,6 +44,11 @@ module.exports = PhpDebug =
       default: "Right"
       description: "Display breakpoint gutter to the left or right of the line numbers"
       enum: ["Left","Right"]
+    AutoExpandLocals:
+      title: "Auto expand the locals section of the context"
+      type: 'boolean'
+      default: false
+      description: "Will cause locals to auto open when starting a new debugging session"
     CustomExceptions:
       type: 'array'
       default: []
@@ -293,7 +298,8 @@ module.exports = PhpDebug =
   createGutter: (editor) ->
     if (!editor)
       editor = atom.workspace.getActivePaneItem()
-    if (!editor)
+
+    if (!editor || !editor.gutterWithName)
       return
       
     gutterEnabled = atom.config.get('php-debug.GutterBreakpointToggle')
@@ -338,6 +344,7 @@ module.exports = PhpDebug =
       @getUnifiedView().setVisible(true)
       @statusView?.setActive(true)
       if !@dbgp.listening()
+        @dbgp.setPort atom.config.get('php-debug.ServerPort')
         if !@dbgp.listen()
           console.log "failed"
           @getUnifiedView().setVisible(false)

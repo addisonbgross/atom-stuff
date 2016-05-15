@@ -2,7 +2,7 @@
 # Copyright (c) 2015 Ben Ogle under MIT license
 # Clang related code from https://github.com/yasuyuky/autocomplete-clang
 
-{Point, Range, BufferedProcess, TextEditor, CompositeDisposable} = require 'atom'
+{Point, Range, BufferedProcess, CompositeDisposable} = require 'atom'
 path = require 'path'
 {existsSync} = require 'fs'
 ClangFlags = require 'clang-flags'
@@ -59,34 +59,41 @@ class ClangProvider
         res.push(suggestion)
     res
 
-  lineRe: /COMPLETION: ([^:]+)(?: : (.+))?$/
-  returnTypeRe: /\[#([^#]+)#\]/ig
-  argumentRe: /\<#([^#]+)#\>/ig
-  commentSplitRe: /(?: : (.+))?$/
-  convertCompletionLine: (s) ->
-    match = s.match(@lineRe)
-    if match?
-      [line, completion, pattern] = match
-      unless pattern?
-        return {snippet:completion,text:completion}
-      [patternNoComment, briefComment] = pattern.split @commentSplitRe
-      returnType = null
-      patternNoType = patternNoComment.replace @returnTypeRe, (match, type) ->
-        returnType = type
-        ''
-      index = 0
-      replacement = patternNoType.replace @argumentRe, (match, arg) ->
-        index++
-        "${#{index}:#{arg}}"
+  convertCompletionLine: (line) ->
+    contentRe = /^COMPLETION: (.*)/
+    match = line.match contentRe
+    return unless match?
 
-      suggestion = {}
-      suggestion.rightLabel = returnType if returnType?
-      if index > 0
-        suggestion.snippet = replacement
-      else
-        suggestion.text = replacement
-      suggestion.description = briefComment if briefComment?
-      suggestion
+    [line, content] = match
+    basicInfoRe = /^(.*?) : (.*)/
+    match = content.match basicInfoRe
+    return {text: content} unless match?
+
+    [content, basicInfo, completionAndComment] = match
+    commentRe = /(?: : (.*))?$/
+    [completion, comment] = completionAndComment.split commentRe
+    returnTypeRe = /^\[#(.*?)#\]/
+    returnType = completion.match(returnTypeRe)?[1]
+    constMemFuncRe = /\[# const#\]$/
+    isConstMemFunc = constMemFuncRe.test completion
+    infoTagsRe = /\[#(.*?)#\]/g
+    completion = completion.replace infoTagsRe, ''
+    argumentsRe = /<#(.*?)#>/g
+    index = 0
+    completion = completion.replace argumentsRe, (match, arg) ->
+      index++
+      "${#{index}:#{arg}}"
+
+    suggestion = {}
+    suggestion.leftLabel = returnType if returnType?
+    if index > 0
+      suggestion.snippet = completion
+    else
+      suggestion.text = completion
+    if isConstMemFunc
+      suggestion.displayText = completion + ' const'
+    suggestion.description = comment if comment?
+    suggestion
 
   handleCompletionResult: (result,returnCode) ->
     if returnCode is not 0
@@ -95,29 +102,34 @@ class ClangProvider
     completions = (@convertCompletionLine(s) for s in outputLines)
     (completion for completion in completions when completion?)
 
-  buildClangArgs: (editor, row, column, language)->
-    pch = [(atom.config.get "autocomplete-clang.pchFilePrefix"), language, "pch"].join '.'
-    args = ["-fsyntax-only", "-x#{language}", "-Xclang", "-code-completion-macros", "-Xclang"]
-    location = "-:#{row + 1}:#{column + 1}"
-    args.push("-code-completion-at=#{location}")
-
-    if atom.config.get("autocomplete-clang.includeDocumentation")?
-      args = args.concat ["-Xclang", "-code-completion-brief-comments"]
-      args.push("-fparse-all-comments") if atom.config.get("autocomplete-clang.includeNonDoxygenCommentsAsDocumentation")
-
-    currentDir=path.dirname(editor.getPath())
-    pchPath = path.join(currentDir, 'test.pch')
-    args = args.concat ["-include-pch", pchPath] if existsSync pchPath
+  buildClangArgs: (editor, row, column, language) ->
     std = atom.config.get "autocomplete-clang.std #{language}"
-    args = args.concat ["-std=#{std}"] if std
-    args = args.concat ("-I#{i}" for i in atom.config.get "autocomplete-clang.includePaths")
-    args.push("-I#{currentDir}")
+    currentDir = path.dirname(editor.getPath())
+    pchFilePrefix = atom.config.get "autocomplete-clang.pchFilePrefix"
+    pchFile = [pchFilePrefix, language, "pch"].join '.'
+    pchPath = path.join(currentDir, pchFile)
+
+    args = ["-fsyntax-only"]
+    args.push "-x#{language}"
+    args.push "-std=#{std}" if std
+    args.push "-Xclang", "-code-completion-macros"
+    args.push "-Xclang", "-code-completion-at=-:#{row + 1}:#{column + 1}"
+    args.push("-include-pch", pchPath) if existsSync(pchPath)
+    args.push "-I#{i}" for i in atom.config.get "autocomplete-clang.includePaths"
+    args.push "-I#{currentDir}"
+
+    if atom.config.get "autocomplete-clang.includeDocumentation"
+      args.push "-Xclang", "-code-completion-brief-comments"
+      if atom.config.get "autocomplete-clang.includeNonDoxygenCommentsAsDocumentation"
+        args.push "-fparse-all-comments"
+
     try
       clangflags = ClangFlags.getClangFlags(editor.getPath())
       args = args.concat clangflags if clangflags
     catch error
       console.log error
-    args.push("-")
+
+    args.push "-"
     args
 
 LanguageUtil =

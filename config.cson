@@ -1,10 +1,10 @@
 "*":
   "activate-power-mode":
+    autoToggle: false
     particles:
       size: {}
       spawnCount:
         max: 5
-        min: 2
       totalCount:
         max: 250
     screenShake: {}
@@ -12,17 +12,81 @@
   "atom-cscope": {}
   "atom-terminal": {}
   "atom-terminal-panel": {}
-  "autocomplete-clang": {}
+  "autocomplete-clang":
+    ignoreClangErrors: false
+    includeDocumentation: false
+    includePaths: [
+      "."
+      "/usr/include"
+      "/"
+    ]
+    "preCompiledHeaders c++": [
+      "array"
+      "cassert"
+      "cctype"
+      "cerrno"
+      "cfloat"
+      "ciso646"
+      "climits"
+      "clocale"
+      "cmath"
+      "csetjmp"
+      "csignal"
+      "cstdarg"
+      "cstddef"
+      "cstdio"
+      "cstdlib"
+      "cstring"
+      "ctime"
+      "cwchar"
+      "cwctype"
+      "deque"
+      "list"
+      "map"
+      "queue"
+      "set"
+      "stack"
+      "vector"
+      "fstream"
+      "iomanip"
+      "ios"
+      "iosfwd"
+      "iostream"
+      "istream"
+      "ostream"
+      "sstream"
+      "streambuf"
+      "algorithm"
+      "bitset"
+      "complex"
+      "exception"
+      "functional"
+      "iterator"
+      "limits"
+      "locale"
+      "memory"
+      "new"
+      "numeric"
+      "stdexcept"
+      "string"
+      "typeinfo"
+      "utility"
+      "valarray"
+      "vector"
+    ]
   "autocomplete-ctags":
     disableBuiltinProvider: true
     minimumPrefixLength: 2
   "autocomplete-java": {}
   "autocomplete-php": {}
   "autocomplete-plus":
+    autoActivationDelay: 50
     backspaceTriggersAutocomplete: true
     confirmCompletion: "enter"
     defaultProvider: "Fuzzy"
+    maxVisibleSuggestions: 12
     minimumWordLength: 2
+    useAlternateScoring: false
   "autocomplete-python": {}
   "build-tools": {}
   core:
@@ -49,15 +113,18 @@
   "highlight-column":
     opacity: 0.05
   linter:
-    errorPanelHeight: 72
+    errorPanelHeight: 100
+    gutterEnabled: false
+    lintOnFlyInterval: 150
     showErrorPanel: false
-    showErrorTabProject: false
   "linter-clang":
     clangDefaultCFlags: " "
-    clangDefaultCppFlags: "-std=c++11 -stdlib=libc++"
+    clangDefaultCppFlags: "-c -std=c++11 -stdlib=libc++"
     clangSuppressWarnings: true
   "linter-gcc":
     gccDefaultCFlags: "-c"
+    gccDefaultCppFlags: "-c -std=c++11"
+    gccLintOnTheFly: true
   minimap:
     absoluteMode: true
     plugins:
